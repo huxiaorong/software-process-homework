@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    android:orientation="horizontal"
+    android:layout_marginLeft="10dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginRight="10dp">
+
+    <ImageView
+        android:id="@+id/img"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:layout_weight="2"
+        android:src="@drawable/update" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="6"
+        android:orientation="vertical"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:textColor="#69C1BF"
+            android:layout_marginTop="10dp"
+            android:id="@+id/tv_movie_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:text="急速备战"
+            android:textSize="25dp"
+            android:textStyle="bold" />
+        <TextView
+            android:layout_marginBottom="5dp"
+            android:textColor="#A49898"
+            android:id="@+id/tv_movie_brief"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="2019/美国/动作/犯罪"
+            android:textSize="18dp" />
+    </LinearLayout>
+</LinearLayout>

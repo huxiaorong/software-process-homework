@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="sex">
+        <item>男</item>
+        <item>女</item>
+    </string-array>
+
+    <string-array name="code">
+        <item>+86</item>
+        <item>+852</item>
+        <item>+1</item>
+    </string-array>
+</resources>
