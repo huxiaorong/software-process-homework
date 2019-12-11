@@ -4,12 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -32,17 +32,11 @@ import okhttp3.Response;
 
 
 public class PlaceDetailsActivity extends AppCompatActivity {
-    private ListView listView;
-    private Intent intent;
-
     private ImageView placeImg;
     private TextView tvPlaceName;
     private TextView tvPlace;
     private TextView tvPlaceDes;
-    private TextView tvCount;
 
-
-    private PlaceDetailsAdapter adapter;
     private List<Movie> movieList = new ArrayList<>();
 
     private String strPlace;
@@ -51,13 +45,15 @@ public class PlaceDetailsActivity extends AppCompatActivity {
     private OkHttpClient okHttpClient = new OkHttpClient();
 
     private String strMovie;
-    private PlaceDetailsAdapter placeDetailsAdapter;
-    private ListView movieListView;
-    private String strMovieType;
 
     private String collecteInfo;
     private ImageView imgLike;
-    private User user;
+
+
+    private ImageView imgMovie;
+    private ImageView imgMap;
+    private FragmentManager fragmentManager;
+    private FragmentTransaction transaction;
 
     private Handler mainHandle = new Handler() {
         @Override
@@ -65,26 +61,29 @@ public class PlaceDetailsActivity extends AppCompatActivity {
 
             switch (msg.what) {
                 case 1:
-                    placeDetailsAdapter = new PlaceDetailsAdapter(movieList, R.layout.item_place_details, PlaceDetailsActivity.this);
-                    movieListView = findViewById(R.id.lv_item_movie1);
-                    movieListView.setAdapter(placeDetailsAdapter);
-                    tvCount.setText("共" + movieList.size() + "部");
-                    movieListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    Constant.MOVIE_LIST = movieList;
+                    //默认显示电影页
+                    fragmentManager = getSupportFragmentManager();
+                    transaction = fragmentManager.beginTransaction();
+                    transaction.replace(R.id.tab_content, new PlaceDetailsMovieFragment());
+                    transaction.commit();
+                    imgMovie.setOnClickListener(new View.OnClickListener() {
                         @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            findMovieTypeById(movieList.get((int) id).getMovieId());
-                            intent = new Intent(PlaceDetailsActivity.this, MovieDetailsActivity.class);
-                            intent.putExtra("movieId", movieList.get((int) id).getMovieId());
-
-
+                        public void onClick(View v) {
+                            imgMap.setImageResource(R.drawable.map);
+                            imgMovie.setImageResource(R.drawable.movied);
+                            fragmentManager = getSupportFragmentManager();
+                            transaction = fragmentManager.beginTransaction();
+                            transaction.replace(R.id.tab_content, new PlaceDetailsMovieFragment());
+                            transaction.commit();
                         }
                     });
                     break;
                 case 2:
-                    if(collecteInfo.equals("yes")){
+                    if (collecteInfo.equals("yes")) {
                         imgLike.setImageResource(R.drawable.collected);
                         imgLike.setTag("collected");
-                    }else{
+                    } else {
                         imgLike.setImageResource(R.drawable.collect);
                         imgLike.setTag("collect");
                     }
@@ -93,32 +92,21 @@ public class PlaceDetailsActivity extends AppCompatActivity {
         }
     };
 
-    private Handler mainHandle1 = new Handler() {
-        @Override
-        public void handleMessage(final Message msg) {
-
-            switch (msg.what) {
-                case 1:
-                    intent.putExtra("type", strMovieType);
-                    startActivity(intent);
-            }
-
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_place_details);
 
+
         //填充adapter
         findView();
         init();
         findMovieByPlaceId(place.getPlaceId());
 
-        if(Constant.USER_STATUS!=null){
+        if (Constant.USER_STATUS != null) {
             judgeCollected();
-        }else{
+        } else {
             imgLike.setImageResource(R.drawable.collect);
             imgLike.setTag("collect");
         }
@@ -169,18 +157,16 @@ public class PlaceDetailsActivity extends AppCompatActivity {
         strPlace = getIntent().getStringExtra("place");
         place = gson.fromJson(strPlace, Place.class);
 
-        listView = findViewById(R.id.lv_item_movie1);
-        adapter = new PlaceDetailsAdapter(movieList, R.layout.item_place_details, this);
-        listView.setAdapter(adapter);
-
         placeImg = findViewById(R.id.img_place);
         tvPlaceName = findViewById(R.id.tv_place_name);
         tvPlace = findViewById(R.id.tv_place);
         tvPlaceDes = findViewById(R.id.tv_place_descri);
-        tvCount = findViewById(R.id.tv_count);
 
         imgLike = findViewById(R.id.img_like);
         imgLike.setTag("collect");
+
+        imgMovie = findViewById(R.id.img_movie);
+        imgMap = findViewById(R.id.img_map);
     }
 
     public void onClicked(View view) {
@@ -189,40 +175,24 @@ public class PlaceDetailsActivity extends AppCompatActivity {
                 finish();
                 break;
             case R.id.img_like:
-                if (Constant.USER_STATUS!=null) {
+                if (Constant.USER_STATUS != null) {
                     collecte();
-                } else{
+                } else {
                     Intent intent = new Intent(PlaceDetailsActivity.this, LoginActivity.class);
                     startActivity(intent);
                 }
                 break;
+            case R.id.img_map:
+                imgMap.setImageResource(R.drawable.maped);
+                imgMovie.setImageResource(R.drawable.movie);
+                Constant.PLACE_ID=place.getPlaceId();
+                fragmentManager = getSupportFragmentManager();
+                transaction = fragmentManager.beginTransaction();
+                transaction.replace(R.id.tab_content, new PlaceDetailsSurroundingFragment());
+                transaction.commit();
+                break;
+
         }
-    }
-
-    private void findMovieTypeById(int movieId) {
-        FormBody body = new FormBody.Builder().add("movieId", String.valueOf(movieId)).build();
-        Request request = new Request.Builder()
-                .url(Constant.INDEX_URL + "findMovieTypeById")
-                .post(body)
-                .build();
-        final Call call = okHttpClient.newCall(request);
-
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                strMovieType = response.body().string();
-                strMovieType = strMovieType.substring(1, strMovieType.length() - 1);
-
-                Message msg = new Message();
-                msg.what = 1;
-                mainHandle1.sendMessage(msg);
-            }
-        });
     }
 
     private void collecte() {
@@ -299,9 +269,9 @@ public class PlaceDetailsActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                collecteInfo=response.body().string();
+                collecteInfo = response.body().string();
 
-                Log.e("ccc",collecteInfo);
+                Log.e("ccc", collecteInfo);
                 Message msg = new Message();
                 msg.what = 2;
                 mainHandle.sendMessage(msg);

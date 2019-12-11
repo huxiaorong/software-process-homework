@@ -40,7 +40,6 @@
         <activity android:name=".ForgetFindActivity"></activity>
         <activity android:name=".UpdateActivity" />
         <activity android:name=".PlaceDetailsActivity" />
-        <activity android:name=".PlaceSurroundingActivity" />
         <activity android:name=".MovieDetailsActivity" />
         <activity android:name=".SearchActivity" />
         <activity android:name=".SearchDetailsActivity" />

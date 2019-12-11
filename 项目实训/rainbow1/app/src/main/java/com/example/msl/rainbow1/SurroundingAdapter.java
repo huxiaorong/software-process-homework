@@ -1,6 +1,7 @@
 package com.example.msl.rainbow1;
 
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,16 +9,18 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class SurroundingAdapter extends BaseAdapter {
-        private List<Place> placeList=new ArrayList<>();
+    private List<Place> placeList=new ArrayList<>();
     private int itemId;
-    private Context context;
+    private FragmentActivity context;
     private ViewHolder viewHolder;
 
-    public SurroundingAdapter(List<Place> placeList, int itemId, Context context) {
+    public SurroundingAdapter(List<Place> placeList, int itemId, FragmentActivity context) {
         this.placeList = placeList;
         this.itemId = itemId;
         this.context = context;
@@ -62,7 +65,9 @@ public class SurroundingAdapter extends BaseAdapter {
         viewHolder.tvPlaceEngName.setText(placeList.get(position).getEnName());
         viewHolder.tvPlace.setText(placeList.get(position).getCountry());
         viewHolder.tv_from_movie.setText(placeList.get(position).getDescription());
-        //viewHolder.imgPlacePicture.setImageResource(placeList.get(position).getImg());
+        Glide.with(context)
+                .load(Constant.BASE_URL + "places/" + placeList.get(position).getImg())
+                .into(viewHolder.imgPlacePicture);
         return convertView;
     }
 

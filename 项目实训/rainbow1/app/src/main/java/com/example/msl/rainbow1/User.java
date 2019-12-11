@@ -11,6 +11,26 @@ public class User {
 	private String sex;
 	private String address;
 	private String birth;
+	private String qqId;
+	private String weiboId;
+
+
+	public String getQqId() {
+		return qqId;
+	}
+
+	public void setQqId(String qqId) {
+		this.qqId = qqId;
+	}
+
+	public String getWeiboId() {
+		return weiboId;
+	}
+
+	public void setWeiboId(String weiboId) {
+		this.weiboId = weiboId;
+	}
+
 	public int getUserId() {
 		return id;
 	}

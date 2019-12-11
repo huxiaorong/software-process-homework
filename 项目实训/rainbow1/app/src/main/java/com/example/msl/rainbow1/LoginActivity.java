@@ -68,7 +68,6 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(LoginActivity.this, rsp, Toast.LENGTH_SHORT).show();
                     }
                     break;
-
             }
         }
     };
@@ -134,11 +133,7 @@ public class LoginActivity extends AppCompatActivity {
                             if (i == Platform.ACTION_USER_INFOR) {
                                 PlatformDb platDB = platform.getDb();//获取数平台数据DB
                                 //通过DB获取各种数据
-                                Log.e("token",platDB.getToken());
-                                Log.e("userGender",platDB.getUserGender());
-                                platDB.getUserIcon();
-                                Log.e("userId",platDB.getUserId());
-                                Log.e("username",platDB.getUserName());
+                                qqLogin(platDB.getUserId(),platDB.getUserName());
                             }
                         }
 
@@ -324,14 +319,15 @@ public class LoginActivity extends AppCompatActivity {
     /**
      * qq登录
      */
-    private void qqLogin(String qq) {
+    private void qqLogin(String id,String username) {
         OkHttpClient okHttpClient = new OkHttpClient();
         FormBody body = new FormBody.Builder()
-                .add("qq", qq)
+                .add("id", id)
+                .add("username",username)
                 .build();
         Request request = new Request.Builder()
                 .post(body)
-                .url(Constant.BASE_URL + "center/login")//设置网络请求的地址
+                .url(Constant.BASE_URL + "center/qqLogin")//设置网络请求的地址
                 .build();
         Call call = okHttpClient.newCall(request);
         call.enqueue(new Callback() {

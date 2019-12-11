@@ -18,10 +18,10 @@ import java.util.List;
 public class PlaceDetailsAdapter extends BaseAdapter {
     private List<Movie> movieList=new ArrayList<>();
     private int itemId;
-    private Context context;
+    private PlaceDetailsMovieFragment context;
     private ViewHolder viewHolder;
 
-    public PlaceDetailsAdapter(List<Movie> movieList, int itemId, Context context) {
+    public PlaceDetailsAdapter(List<Movie> movieList, int itemId, PlaceDetailsMovieFragment context) {
         this.movieList = movieList;
         this.itemId = itemId;
         this.context = context;
@@ -51,7 +51,7 @@ public class PlaceDetailsAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if(convertView==null){
-            convertView= LayoutInflater.from(context).inflate(itemId,null);
+            convertView= LayoutInflater.from(context.getContext()).inflate(itemId,null);
             viewHolder=new ViewHolder();
             viewHolder.tvMovieName=convertView.findViewById(R.id.tv_movie_name);
             viewHolder.tvMovieEngName=convertView.findViewById(R.id.tv_movie_engname);

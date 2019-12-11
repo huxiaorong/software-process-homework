@@ -198,7 +198,19 @@ public class IndexController extends Controller{
 	}
 
 	
-	
+	public void findSurroundingByPlaceId(){
+		int placeId=getInt("placeId");
+		List<Record> list=new ArrayList<>();
+		List<Record>  surroundingList =Db.find("select surroundingId from surrounding where placeId = "+placeId);
+		for(int i=0;i<surroundingList.size();i++){
+			Record r=Db.findFirst("select * from place where placeId="+surroundingList.get(i).getInt("surroundingId"));
+			list.add(r);
+		}
+		System.out.println(list.toString());
+		renderJson(list);
+		
+	}
+
 	
 	
 	

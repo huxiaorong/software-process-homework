@@ -133,4 +133,17 @@ public class CenterController extends Controller {
 		renderJson("发送成功");
 	}
 	
+	public void qqLogin(){
+		String qqId = get("id");
+		String username = get("username");
+		Record user = Db.findFirst("select * from user where qqId ='"+ qqId );
+		if(user == null){
+			Record user1 = new Record().set("qqId", qqId).set("username", username);
+			Db.save("user", user1);
+			renderJson(user1);
+		}else{
+			renderJson(user);
+		}
+		
+	}
 }
