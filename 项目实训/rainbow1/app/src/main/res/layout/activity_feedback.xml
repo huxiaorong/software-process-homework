@@ -16,6 +16,7 @@
             android:layout_height="wrap_content"
             android:text="意见反馈"/>
         <ImageView
+            android:id="@+id/iv_left"
             android:layout_marginLeft="0dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

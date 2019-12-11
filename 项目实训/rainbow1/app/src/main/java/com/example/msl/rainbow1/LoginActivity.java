@@ -24,6 +24,8 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.PlatformActionListener;
+import cn.sharesdk.framework.PlatformDb;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.sina.weibo.SinaWeibo;
 import cn.sharesdk.tencent.qq.QQ;
@@ -122,20 +124,70 @@ public class LoginActivity extends AppCompatActivity {
                     Platform plat = ShareSDK.getPlatform(QQ.NAME);
                     //移除授权状态和本地缓存，下次授权会重新授权
                     plat.removeAccount(true);
-                    //SSO授权，传false默认是客户端授权
+                    //SSO授权，传false默认是客户端授权,没有客户端授权或者不支持客户端授权会跳web授权；设置成true是关闭SSO授权(关闭客户端授权)
                     plat.SSOSetting(false);
                     //授权回调监听，监听oncomplete，onerror，oncancel三种状态
-                    //plat.setPlatformActionListener();
+                    plat.setPlatformActionListener(new PlatformActionListener() {
+
+                        @Override
+                        public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
+                            if (i == Platform.ACTION_USER_INFOR) {
+                                PlatformDb platDB = platform.getDb();//获取数平台数据DB
+                                //通过DB获取各种数据
+                                Log.e("token",platDB.getToken());
+                                Log.e("userGender",platDB.getUserGender());
+                                platDB.getUserIcon();
+                                Log.e("userId",platDB.getUserId());
+                                Log.e("username",platDB.getUserName());
+                            }
+                        }
+
+                        @Override
+                        public void onError(Platform platform, int i, Throwable throwable) {
+
+                        }
+
+                        @Override
+                        public void onCancel(Platform platform, int i) {
+
+                        }
+                    });
+                    //抖音登录适配安卓9.0
+                    ShareSDK.setActivity(LoginActivity.this);
                     //要数据不要功能，主要体现在不会重复出现授权界面
-                    plat.showUser(null);
+                    plat.showUser("");
+
 
                     break;
                 case R.id.iv_weibo:
                     Platform weibo = ShareSDK.getPlatform(SinaWeibo.NAME);
                     weibo.SSOSetting(false);  //设置false表示使用SSO授权方式
-                    //weibo.setPlatformActionListener(platformlistener); // 设置分享事件回调
+                    weibo.setPlatformActionListener(new PlatformActionListener() {
+                        @Override
+                        public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
+                            if (i == Platform.ACTION_USER_INFOR) {
+                                PlatformDb platDB = platform.getDb();//获取数平台数据DB
+                                //通过DB获取各种数据
+                                Log.e("token",platDB.getToken());
+                                Log.e("userGender",platDB.getUserGender());
+                                platDB.getUserIcon();
+                                Log.e("userId",platDB.getUserId());
+                                Log.e("username",platDB.getUserName());
+                            }
+                        }
+
+                        @Override
+                        public void onError(Platform platform, int i, Throwable throwable) {
+
+                        }
+
+                        @Override
+                        public void onCancel(Platform platform, int i) {
+
+                        }
+                    }); // 设置分享事件回调
                     ShareSDK.setActivity(LoginActivity.this);//抖音登录适配安卓9.0
-                    weibo.authorize();//单独授权
+                    weibo.showUser(null);//单独授权
                     break;
                 case R.id.iv_chat:
                     //java
@@ -260,6 +312,38 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call call, Response response) throws IOException {
                 rsp = response.body().string();
                 Log.e("rspNum", rsp);
+                Message msg = new Message();
+                msg.what = 1;
+                mainHandle.sendMessage(msg);
+
+            }
+        });
+
+    }
+
+    /**
+     * qq登录
+     */
+    private void qqLogin(String qq) {
+        OkHttpClient okHttpClient = new OkHttpClient();
+        FormBody body = new FormBody.Builder()
+                .add("qq", qq)
+                .build();
+        Request request = new Request.Builder()
+                .post(body)
+                .url(Constant.BASE_URL + "center/login")//设置网络请求的地址
+                .build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                rsp = response.body().string();
+                Log.e("rsp", rsp);
                 Message msg = new Message();
                 msg.what = 1;
                 mainHandle.sendMessage(msg);

@@ -1,6 +1,7 @@
 package rainbow.masuli.controller;
 
 
+import java.util.Date;
 import java.util.List;
 
 import com.jfinal.core.Controller;
@@ -107,6 +108,29 @@ public class CenterController extends Controller {
 		}else{
 			renderJson("您输入的手机号已存在");
 		}
+	}
+	public void changePwd(){
+		String phone = get("phone");
+		String pwd = get("pwd");
+		String pwd1 = get("newPwd");
+		Record user = Db.findFirst("select * from user where tel ='"+ phone + "' && password ='"+pwd+"'");
+		Record user1 = Db.findById("user", user.get("id")).set("password", pwd1);
+		Db.update("user", user1);
+		renderJson("修改成功");
+	}
+	public void cancellation(){
+		int userId = Integer.parseInt(getPara("userId"));
+		Db.delete("delete from user where id = "+userId);
+		renderJson("注销成功");
+		
+	}
+	public void sendMessage(){
+		String content = get("etContent");
+		String email = get("etMail");
+		int userId = Integer.parseInt(getPara("userId"));
+		Record opinion = new Record().set("content", content).set("email", email).set("userId", userId).set("date", new Date());
+		Db.save("opinion", opinion);
+		renderJson("发送成功");
 	}
 	
 }

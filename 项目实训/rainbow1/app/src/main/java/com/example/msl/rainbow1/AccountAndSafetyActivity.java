@@ -47,10 +47,17 @@ public class AccountAndSafetyActivity extends AppCompatActivity {
                     if (!(rsp.equals("您输入的手机号已存在"))) {
                         Toast.makeText(AccountAndSafetyActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
                         Constant.USER_STATUS.setTel(phone);
-                        Intent intent = new Intent(AccountAndSafetyActivity.this,AccountAndSafetyActivity.class);
+                        Intent intent = new Intent(AccountAndSafetyActivity.this, AccountAndSafetyActivity.class);
                         startActivity(intent);
-                    }else{
+                    } else {
                         Toast.makeText(AccountAndSafetyActivity.this, rsp, Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                case 2:
+                    if (rsp.equals("注销成功")){
+                        Constant.USER_STATUS = null;
+                        Intent intent = new Intent(AccountAndSafetyActivity.this, MainActivity.class);
+                        startActivity(intent);
                     }
                     break;
 
@@ -68,25 +75,28 @@ public class AccountAndSafetyActivity extends AppCompatActivity {
         rlChange.setOnClickListener(myListener);
         ivLeft.setOnClickListener(myListener);
         rlCancellation.setOnClickListener(myListener);
-        tvPhoneNum.setText(Constant.USER_STATUS.getTel());
+        String phoneNum = Constant.USER_STATUS.getTel().substring(0, 3) + "****" + Constant.USER_STATUS.getTel().substring(7, 11);
+        tvPhoneNum.setText(phoneNum);
     }
-    private void findViews(){
+
+    private void findViews() {
         rlCancellation = findViewById(R.id.rl_cancellation);
         rlChange = findViewById(R.id.rl_change);
         rlModify = findViewById(R.id.rl_modify);
         tvPhoneNum = findViewById(R.id.tv_phone_num);
         ivLeft = findViewById(R.id.iv_left);
     }
+
     private class MyListener implements View.OnClickListener {
 
         @Override
         public void onClick(View v) {
-            switch (v.getId()){
+            switch (v.getId()) {
                 case R.id.rl_modify:
                     sendCode(AccountAndSafetyActivity.this);
                     break;
                 case R.id.rl_change:
-                    Intent intent1 = new Intent(AccountAndSafetyActivity.this,ChangeActivity.class);
+                    Intent intent1 = new Intent(AccountAndSafetyActivity.this, ChangeActivity.class);
                     startActivity(intent1);
                     break;
                 case R.id.rl_cancellation:
@@ -94,7 +104,10 @@ public class AccountAndSafetyActivity extends AppCompatActivity {
                             .setMessage("确定要注销么?")
                             .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int whichButton) {
-                                    finish();//Exit Activity
+                                    cancellation();
+                                    Intent intent3 = new Intent(AccountAndSafetyActivity.this, MainActivity.class);
+                                    Constant.USER_STATUS = null;
+                                    startActivity(intent3);
                                 }
                             })
                             .setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -109,6 +122,38 @@ public class AccountAndSafetyActivity extends AppCompatActivity {
             }
         }
     }
+
+    /**
+     * 注销账号
+     */
+    private void cancellation() {
+        OkHttpClient okHttpClient = new OkHttpClient();
+        FormBody body = new FormBody.Builder()
+                .add("userId", Constant.USER_STATUS.getUserId()+"")
+                .build();
+        Request request = new Request.Builder()
+                .post(body)
+                .url(Constant.BASE_URL + "center/cancellation")//设置网络请求的地址
+                .build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                rsp = response.body().string();
+                Log.e("rsp", rsp);
+                Message msg = new Message();
+                msg.what = 2;
+                mainHandle.sendMessage(msg);
+
+            }
+        });
+    }
+
     public void sendCode(Context context) {
         RegisterPage page = new RegisterPage();
         //如果使用我们的ui，没有申请模板编号的情况下需传null
@@ -130,6 +175,7 @@ public class AccountAndSafetyActivity extends AppCompatActivity {
         });
         page.show(context);
     }
+
     /**
      * 修改手机号
      */
