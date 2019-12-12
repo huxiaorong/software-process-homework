@@ -18,6 +18,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -55,6 +57,12 @@ public class CenterFragment extends Fragment {
                     tvCollection.setText(count.getCollectionCount()+"");
                     tvNotes.setText(count.getDynamicCount()+"");
                     tvPraise.setText(count.getPraiseCount()+"");
+                    RequestOptions options = new RequestOptions().circleCrop();
+                    Glide.with(getContext())
+                            .load(Constant.BASE_URL+"headPicture/"+Constant.USER_STATUS.getHeadPicture())
+                            .apply(options)
+                            .into(ivHeader);
+
                     break;
 
             }
@@ -73,6 +81,7 @@ public class CenterFragment extends Fragment {
         transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.frame, new CollectionFragment());
         transaction.commit();
+
         return view;
     }
 
@@ -80,6 +89,16 @@ public class CenterFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getCount();
+
+
+    }
+
+    /**
+     * 获取用户头像
+     */
+    private void getHeadPicture() {
+        Log.e("path",Constant.BASE_URL+"headPicture/"+Constant.USER_STATUS.getHeadPicture());
+
 
     }
 
@@ -89,7 +108,7 @@ public class CenterFragment extends Fragment {
         tvNotesFragment = view.findViewById(R.id.tv_notes_fragment);
         ivSettings = view.findViewById(R.id.iv_settings);
         btnEdit = view.findViewById(R.id.btn_edit);
-        ivHeader = view.findViewById(R.id.iv_avatar);
+        ivHeader = view.findViewById(R.id.iv_header);
         tvNotes = view.findViewById(R.id.tv_notes);
         tvCollection = view.findViewById(R.id.tv_collection);
         tvPraise = view.findViewById(R.id.tv_praise);

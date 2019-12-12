@@ -2,7 +2,10 @@ package com.example.msl.rainbow1;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -30,8 +33,11 @@ public class MainActivity extends AppCompatActivity{
     private TextView tvCity;
     private TextView tvCenter;
     private ImageView ivDynamic;
-
-
+    private ImageView ivHome;
+    private ImageView ivCity;
+    private ImageView ivCenter;
+    private ImageView ivMovie;
+    private TextView tvPost;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,11 +47,15 @@ public class MainActivity extends AppCompatActivity{
         bindListener();
 
         //默认显示首页
-        tvHome.setTextColor(Color.BLACK);
+        Glide.with(MainActivity.this).load(R.drawable.home_checked).into(ivHome);
+        tvHome.setTextColor(Color.rgb(69,193,191));
         fragmentManager = getSupportFragmentManager();
         transaction = fragmentManager.beginTransaction();
         transaction.replace(R.id.tab_content, new HomeFragment());
         transaction.commit();
+
+
+
 
 
 
@@ -62,6 +72,11 @@ public class MainActivity extends AppCompatActivity{
         tvHome = findViewById(R.id.tv_homepage);
         tvMovie = findViewById(R.id.tv_movie);
         ivDynamic = findViewById(R.id.iv_post);
+        ivCenter = findViewById(R.id.iv_center);
+        ivCity = findViewById(R.id.iv_city);
+        ivHome = findViewById(R.id.iv_home);
+        ivMovie = findViewById(R.id.iv_movie);
+        tvPost = findViewById(R.id.tv_post);
     }
 
     private void bindListener(){
@@ -75,13 +90,18 @@ public class MainActivity extends AppCompatActivity{
 
     private class MyListener implements View.OnClickListener{
 
+        @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
         @Override
         public void onClick(View v) {
             switch (v.getId()){
                 case R.id.tab_spec_homepage:
-                    tvHome.setTextColor(Color.BLACK);
+                    Glide.with(MainActivity.this).load(R.drawable.home_checked).into(ivHome);
+                    tvHome.setTextColor(Color.rgb(69,193,191));
+                    Glide.with(MainActivity.this).load(R.drawable.city).into(ivCity);
                     tvCity.setTextColor(Color.rgb(97,97,97));
+                    Glide.with(MainActivity.this).load(R.drawable.center).into(ivCenter);
                     tvCenter.setTextColor(Color.rgb(97,97,97));
+                    Glide.with(MainActivity.this).load(R.drawable.movie2).into(ivMovie);
                     tvMovie.setTextColor(Color.rgb(97,97,97));
                     Glide.with(MainActivity.this).load(R.drawable.post).into(ivDynamic);
                     fragmentManager = getSupportFragmentManager();
@@ -90,9 +110,13 @@ public class MainActivity extends AppCompatActivity{
                     transaction.commit();
                     break;
                 case R.id.tab_spec_city:
-                    tvCity.setTextColor(Color.BLACK);
+                    Glide.with(MainActivity.this).load(R.drawable.city_checked).into(ivCity);
+                    tvCity.setTextColor(Color.rgb(69,193,191));
+                    Glide.with(MainActivity.this).load(R.drawable.home).into(ivHome);
                     tvHome.setTextColor(Color.rgb(97,97,97));
+                    Glide.with(MainActivity.this).load(R.drawable.center).into(ivCenter);
                     tvCenter.setTextColor(Color.rgb(97,97,97));
+                    Glide.with(MainActivity.this).load(R.drawable.movie2).into(ivMovie);
                     tvMovie.setTextColor(Color.rgb(97,97,97));
                     Glide.with(MainActivity.this).load(R.drawable.post).into(ivDynamic);
                     fragmentManager = getSupportFragmentManager();
@@ -101,9 +125,13 @@ public class MainActivity extends AppCompatActivity{
                     transaction.commit();
                     break;
                 case R.id.tab_spec_me:
-                    tvCenter.setTextColor(Color.BLACK);
+                    Glide.with(MainActivity.this).load(R.drawable.center_checked).into(ivCenter);
+                    tvCenter.setTextColor(Color.rgb(69,193,191));
+                    Glide.with(MainActivity.this).load(R.drawable.city).into(ivCity);
                     tvCity.setTextColor(Color.rgb(97,97,97));
+                    Glide.with(MainActivity.this).load(R.drawable.home).into(ivHome);
                     tvHome.setTextColor(Color.rgb(97,97,97));
+                    Glide.with(MainActivity.this).load(R.drawable.movie2).into(ivMovie);
                     tvMovie.setTextColor(Color.rgb(97,97,97));
                     Glide.with(MainActivity.this).load(R.drawable.post).into(ivDynamic);
                     fragmentManager = getSupportFragmentManager();
@@ -117,9 +145,13 @@ public class MainActivity extends AppCompatActivity{
                     transaction.commit();
                     break;
                 case R.id.tab_spec_movie:
-                    tvMovie.setTextColor(Color.BLACK);
+                    Glide.with(MainActivity.this).load(R.drawable.movie_checked).into(ivMovie);
+                    tvMovie.setTextColor(Color.rgb(69,193,191));
+                    Glide.with(MainActivity.this).load(R.drawable.city).into(ivCity);
                     tvCity.setTextColor(Color.rgb(97,97,97));
+                    Glide.with(MainActivity.this).load(R.drawable.center).into(ivCenter);
                     tvCenter.setTextColor(Color.rgb(97,97,97));
+                    Glide.with(MainActivity.this).load(R.drawable.home).into(ivHome);
                     tvHome.setTextColor(Color.rgb(97,97,97));
                     Glide.with(MainActivity.this).load(R.drawable.post).into(ivDynamic);
                     fragmentManager = getSupportFragmentManager();
@@ -128,11 +160,15 @@ public class MainActivity extends AppCompatActivity{
                     transaction.commit();
                     break;
                 case R.id.tab_spec_post:
+                    Glide.with(MainActivity.this).load(R.drawable.home).into(ivHome);
                     tvHome.setTextColor(Color.rgb(97,97,97));
+                    Glide.with(MainActivity.this).load(R.drawable.city).into(ivCity);
                     tvCity.setTextColor(Color.rgb(97,97,97));
+                    Glide.with(MainActivity.this).load(R.drawable.center).into(ivCenter);
                     tvCenter.setTextColor(Color.rgb(97,97,97));
+                    Glide.with(MainActivity.this).load(R.drawable.movie2).into(ivMovie);
                     tvMovie.setTextColor(Color.rgb(97,97,97));
-                    Glide.with(MainActivity.this).load(R.drawable.x).into(ivDynamic);
+                    Glide.with(MainActivity.this).load(R.drawable.post_checked).into(ivDynamic);
                     fragmentManager = getSupportFragmentManager();
                     transaction = fragmentManager.beginTransaction();
                     transaction.replace(R.id.tab_content, new DynamicFragment());

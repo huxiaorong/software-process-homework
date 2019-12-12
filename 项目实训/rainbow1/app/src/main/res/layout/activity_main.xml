@@ -6,6 +6,7 @@
 
     <!-- 选项卡按钮所在布局 -->
     <LinearLayout
+        android:background="@drawable/linearlayout"
         android:layout_alignParentBottom="true"
         android:id="@+id/tab_widget"
         android:layout_width="match_parent"
@@ -21,10 +22,15 @@
             android:orientation="vertical"
             android:layout_gravity="center"
             android:gravity="center">
+            <ImageView
+                android:id="@+id/iv_home"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/home"/>
 
             <TextView
                 android:id="@+id/tv_homepage"
-                android:textSize="20dp"
+                android:textSize="15dp"
                 android:textColor="#979797"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -41,10 +47,15 @@
             android:orientation="vertical"
             android:layout_gravity="center"
             android:gravity="center">
+            <ImageView
+                android:id="@+id/iv_movie"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/movie2"/>
 
             <TextView
                 android:id="@+id/tv_movie"
-                android:textSize="20dp"
+                android:textSize="15dp"
                 android:textColor="#979797"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -65,8 +76,14 @@
             <ImageView
                 android:id="@+id/iv_post"
                 android:src="@drawable/post"
+                android:layout_width="25dp"
+                android:layout_height="25dp" />
+            <TextView
+                android:id="@+id/tv_post"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:text="动态"/>
 
         </LinearLayout>
 
@@ -80,9 +97,14 @@
             android:layout_gravity="center"
             android:gravity="center">
 
+            <ImageView
+                android:id="@+id/iv_city"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/city"/>
             <TextView
                 android:id="@+id/tv_city"
-                android:textSize="20dp"
+                android:textSize="15dp"
                 android:textColor="#979797"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -90,7 +112,7 @@
 
         </LinearLayout>
 
-        <!-- 设置 -->
+        <!-- 个人中心 -->
         <LinearLayout
             android:id="@+id/tab_spec_me"
             android:layout_width="0dp"
@@ -99,10 +121,15 @@
             android:orientation="vertical"
             android:layout_gravity="center"
             android:gravity="center">
+            <ImageView
+                android:id="@+id/iv_center"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/center"/>
 
             <TextView
                 android:id="@+id/tv_me"
-                android:textSize="20dp"
+                android:textSize="15dp"
                 android:textColor="#979797"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

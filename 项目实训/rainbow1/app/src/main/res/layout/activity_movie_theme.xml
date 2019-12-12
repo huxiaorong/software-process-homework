@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MovieThemeActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="51dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:src="@drawable/arrow_left" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="380dp"
+            android:layout_height="109dp">
+
+            <ImageView
+                android:id="@+id/img_theme"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="25dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/movie10" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_theme_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="城市印象"
+                android:textSize="18dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="18dp"/>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_theme_brief"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="一部电影一座城"
+            android:textSize="15dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="13dp"/>
+        <TextView
+            android:id="@+id/tv_theme_introduce"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginTop="6dp"
+            android:lineSpacingExtra="3dp"
+            android:text="有一种电影，叫做城市风光宣传片。主角在古老而繁华的城市中穷逛，镜头顺带扫过所有地标性景观，由此组成一部电影。有的影片成为传世经典，有的甫一问世即为烂片，不过导演们的国家地理情怀一成不变。多少人因为这样一部电影，踏上通往陌生城市的旅途，从而爱上一座城。在那里，永恒的异乡人正透过银幕召唤着我们的灵魂。"/>
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/lv_movie_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </ListView>
+
+</LinearLayout>
