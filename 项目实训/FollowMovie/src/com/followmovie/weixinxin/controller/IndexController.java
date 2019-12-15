@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 
 
@@ -83,19 +84,6 @@ public class IndexController extends Controller{
 		renderJson(carouselMovie.get(position).getInt("movieId"));	
 	}
 	
-	public void findPlaceByMovieId(){
-		int movieId=getInt("movieId");
-		List<Record>  placeIds =Db.find("select placeId from movieplacecomparison where movieId = "+movieId);
-		System.out.println(placeIds);
-		List<Record> placeList = new ArrayList<>();
-		Record place=null;
-		
-		for(int i=0;i<placeIds.size();i++){
-			 place=Db.findFirst("select * from place where placeId = "+placeIds.get(i).getInt("placeId"));
-			 placeList.add(place);
-		}
-		renderJson(placeList);		
-	}
 	
 	
 	public String findMovieTypeById1(int movieId){
@@ -209,6 +197,54 @@ public class IndexController extends Controller{
 		System.out.println(list.toString());
 		renderJson(list);
 		
+	}
+	
+	public void findPlaceByMovieId(){
+		int movieId=getInt("movieId");
+		int pageNumber=getInt("pageNumber");
+		Page<Record> placeIds=Db.paginate(pageNumber, 2, "select placeId"," from movieplacecomparison where movieId = "+movieId);
+		List<Record> placeList = new ArrayList<>();
+		Record place=null;
+		
+		for(int i=0;i<placeIds.getList().size();i++){
+			 place=Db.findFirst("select * from place where placeId = "+placeIds.getList().get(i).getInt("placeId"));
+			 placeList.add(place);
+		}
+		renderJson(placeList);		
+	}
+
+
+	public void guessLike(){
+		List<Record> movies=new ArrayList<>();
+		List<Record> movieIdList=new ArrayList<>();
+		int userId=getInt("userId");
+		//System.out.println("ss"+userId+"aa"+pageNumber);
+		List<Record> movieId=Db.find("select movieId from moviecollection where userId = "+userId);
+		int x=(int)((Math.random()*movieId.size()));
+		if(x==movieId.size()){
+			x=x-1;
+		}
+		System.out.println("ww"+movieId+"ss"+x+"cc"+movieId.get(x).getInt("movieId"));
+		List<Record> movieTypeIds= Db.find("select movieTypeId from movietypecomparison where movieId = "+movieId.get(x).getInt("movieId"));
+		System.out.println("ddd"+movieTypeIds);
+		for(int i=0;i<movieTypeIds.size();i++){
+			List<Record> r= Db.find("select movieId from movietypecomparison where movieTypeId = "+movieTypeIds.get(i).getInt("movieTypeId"));
+			movieIdList.addAll(r);
+		}
+		for(int i=0;i<movieIdList.size();i++){
+			Record m=Db.findFirst("select * from movie where movieId = "+movieIdList.get(i).getInt("movieId"));
+			movies.add(m);
+		}
+		System.out.println("ffffffffffff"+movies.size());
+		System.out.println("sssssssss"+movies.toString());
+		renderJson(movies);
+		
+	}
+	
+	public void recommendMovie(){
+		int pageNumber=getInt("pageNumber");
+		Page<Record> m=Db.paginate(pageNumber, 10, "select *"," from movie");
+		renderJson(m.getList());		
 	}
 
 	

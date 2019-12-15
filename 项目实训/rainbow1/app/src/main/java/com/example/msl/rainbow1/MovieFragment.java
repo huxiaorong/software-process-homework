@@ -23,6 +23,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,6 +68,8 @@ public class MovieFragment extends Fragment {
     private List<Movie> themeMovies = new ArrayList<>();
     private List<String> movieTypes;
     private List<String> movieCities;
+    private List<Movie> firstThemeMovies;
+    private String firstMovieTypes;
     private Intent intent;
 
 
@@ -76,6 +79,7 @@ public class MovieFragment extends Fragment {
         // Inflate the layout for this fragment
         View  view =  inflater.inflate(R.layout.activity_movie, container, false);
         findView(view);
+
         return view;
     }
 
@@ -86,6 +90,71 @@ public class MovieFragment extends Fragment {
         init();
         getAsync4MovieTheme();
         getAsync4MovieThemeFirstPlaces();
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        imgSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(),SearchActivity.class);
+                startActivity(intent);
+            }
+        });
+        llHeadTheme.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent = new Intent(getActivity(),MovieThemeActivity.class);
+                intent.putExtra("movieTheme",gson.toJson(movieThemes.get(0)));
+                getAsync4MovieThemePlaces(movieThemes.get(0).getMovieThemeId());
+            }
+        });
+        llShowMovie.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //跳转到电影详情页
+                intent = new Intent(getActivity(),MovieDetailsActivity.class);
+                intent.putExtra("movieId",firstThemeMovies.get(0).getMovieId());
+                intent.putExtra("type",firstMovieTypes);
+                Log.e("movieId",firstThemeMovies.get(0).getMovieId()+"");
+                Log.e("type",firstMovieTypes);
+                startActivity(intent);
+            }
+        });
+        llThemeMoreMovies.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent = new Intent(getActivity(),MovieThemeActivity.class);
+                intent.putExtra("movieTheme",gson.toJson(movieThemes.get(0)));
+                getAsync4MovieThemePlaces(movieThemes.get(0).getMovieThemeId());
+            }
+        });
+        llFirstTheme.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent = new Intent(getActivity(),MovieThemeActivity.class);
+                intent.putExtra("movieTheme",gson.toJson(movieThemes.get(1)));
+                getAsync4MovieThemePlaces(movieThemes.get(1).getMovieThemeId());
+            }
+        });
+        llSecondTheme.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent = new Intent(getActivity(),MovieThemeActivity.class);
+                intent.putExtra("movieTheme",gson.toJson(movieThemes.get(2)));
+                getAsync4MovieThemePlaces(movieThemes.get(2).getMovieThemeId());
+            }
+        });
+        llThirdTheme.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent = new Intent(getActivity(),MovieThemeActivity.class);
+                intent.putExtra("movieTheme",gson.toJson(movieThemes.get(3)));
+                getAsync4MovieThemePlaces(movieThemes.get(3).getMovieThemeId());
+            }
+        });
+
     }
 
     private void findView(View view){
@@ -122,38 +191,6 @@ public class MovieFragment extends Fragment {
         gson = new GsonBuilder()
                 .setDateFormat("yyyy-MM-dd HH:mm:ss")
                 .create();
-    }
-    public void onClicked(View view) {
-        switch (view.getId()){
-            case R.id.ll_head_theme:
-                intent = new Intent(getActivity(),MovieThemeActivity.class);
-                intent.putExtra("movieTheme",gson.toJson(movieThemes.get(0)));
-                getAsync4MovieThemePlaces(movieThemes.get(0).getMovieThemeId());
-                break;
-            case R.id.ll_show_movie:
-                //跳转到电影详情页
-                break;
-            case R.id.ll_theme_more_movies:
-                intent = new Intent(getActivity(),MovieThemeActivity.class);
-                intent.putExtra("movieTheme",gson.toJson(movieThemes.get(0)));
-                getAsync4MovieThemePlaces(movieThemes.get(0).getMovieThemeId());
-                break;
-            case R.id.ll_first_theme:
-                intent = new Intent(getActivity(),MovieThemeActivity.class);
-                intent.putExtra("movieTheme",gson.toJson(movieThemes.get(1)));
-                getAsync4MovieThemePlaces(movieThemes.get(1).getMovieThemeId());
-                break;
-            case R.id.ll_second_theme:
-                intent = new Intent(getActivity(),MovieThemeActivity.class);
-                intent.putExtra("movieTheme",gson.toJson(movieThemes.get(2)));
-                getAsync4MovieThemePlaces(movieThemes.get(2).getMovieThemeId());
-                break;
-            case R.id.ll_third_theme:
-                intent = new Intent(getActivity(),MovieThemeActivity.class);
-                intent.putExtra("movieTheme",gson.toJson(movieThemes.get(3)));
-                getAsync4MovieThemePlaces(movieThemes.get(3).getMovieThemeId());
-                break;
-        }
     }
     /*
     请求电影主题列表
@@ -267,6 +304,7 @@ public class MovieFragment extends Fragment {
                     public void run() {
 
                         themeMovies = gson.fromJson(reStr, new TypeToken<List<Movie>>(){}.getType());
+                        firstThemeMovies = gson.fromJson(reStr, new TypeToken<List<Movie>>(){}.getType());
                         if (themeMovies.size()> 0){
                             Glide.with(getActivity())
                                     .load(Constant.BASE_IP + "movie/" + themeMovies.get(0).getImg())
@@ -347,7 +385,11 @@ public class MovieFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     public void run() {
                         String[] types = gson.fromJson(reStr, String[].class);
-                        tvShowMovieBrief.setText(themeMovies.get(0).getCountry()+" "+themeMovies.get(0).getReleaseYear().getYear()+TypeToString(types) );
+                        firstMovieTypes = TypeToString(types);
+                        Calendar c = Calendar.getInstance();
+                        c.setTime(themeMovies.get(0).getReleaseYear());
+                        int year = c.get(Calendar.YEAR);
+                        tvShowMovieBrief.setText(themeMovies.get(0).getCountry()+" "+year+" " +TypeToString(types) );
 
                     }
                 });
@@ -429,10 +471,10 @@ public class MovieFragment extends Fragment {
     }
     private String TypeToString(String[] types){
         String str = "";
-        for (int i = 0;i<types.length;i++){
-            str = str+" "+types[i];
+        for (int i = 0;i<types.length-1;i++){
+            str = str+types[i]+"/";
         }
-
+        str=str+types[types.length-1];
         return str;
     }
     private String cityToString(String[] types){

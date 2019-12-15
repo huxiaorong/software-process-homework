@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -21,6 +22,8 @@ import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -70,6 +73,14 @@ public class MovieDetailsActivity extends AppCompatActivity{
     private ListView lvMovieDetail;
 
     private String collecteInfo;
+    private RefreshLayout refreshLayout;
+    private List<Place> copyPlaceList = new ArrayList<>();
+
+
+    private int pageNumber = 1;
+
+
+
 
     private Handler mainHandle = new Handler() {
         @Override
@@ -118,9 +129,10 @@ public class MovieDetailsActivity extends AppCompatActivity{
                     });
                     break;
                 case 2:
+                    copyPlaceList.addAll(placeList);
                     Log.e("wxx", placeList.toString());
                     lvMovieDetail = findViewById(R.id.lv_item_place);
-                    movieDetailsAdapter = new MovieDetailsAdapter(placeList, R.layout.item_place, MovieDetailsActivity.this);
+                    movieDetailsAdapter = new MovieDetailsAdapter(copyPlaceList, R.layout.item_place, MovieDetailsActivity.this);
                     lvMovieDetail.setAdapter(movieDetailsAdapter);
                     setListViewHeightBasedOnChildren(lvMovieDetail);
                     lvMovieDetail.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -129,19 +141,30 @@ public class MovieDetailsActivity extends AppCompatActivity{
                             intent = new Intent(MovieDetailsActivity.this, PlaceDetailsActivity.class);
                             Gson gson = new Gson();
                             Place place = new Place();
-                            place.setName(placeList.get((int) id).getName());
-                            place.setEnName(placeList.get((int) id).getEnName());
-                            place.setCity(placeList.get((int) id).getCity());
-                            place.setCountry(placeList.get((int) id).getCountry());
-                            place.setDescription(placeList.get((int) id).getDescription());
-                            place.setImg(placeList.get((int) id).getImg());
-                            place.setPlaceId(placeList.get((int) id).getPlaceId());
-                            place.setProvince(placeList.get((int) id).getProvince());
+                            place.setName(copyPlaceList.get((int) id).getName());
+                            place.setEnName(copyPlaceList.get((int) id).getEnName());
+                            place.setCity(copyPlaceList.get((int) id).getCity());
+                            place.setCountry(copyPlaceList.get((int) id).getCountry());
+                            place.setDescription(copyPlaceList.get((int) id).getDescription());
+                            place.setImg(copyPlaceList.get((int) id).getImg());
+                            place.setPlaceId(copyPlaceList.get((int) id).getPlaceId());
+                            place.setProvince(copyPlaceList.get((int) id).getProvince());
                             String strPlace = gson.toJson(place);
                             intent.putExtra("place", strPlace);
                             startActivity(intent);
                         }
                     });
+                    refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+                        @Override
+                        public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                            pageNumber = pageNumber + 1;
+                            findPlaceByMovieId(movieId);
+
+                            movieDetailsAdapter.notifyDataSetChanged();
+                            refreshLayout.finishLoadMore();
+                        }
+                    });
+
                     break;
                 case 3:
                     if(collecteInfo.equals("yes")){
@@ -188,6 +211,8 @@ public class MovieDetailsActivity extends AppCompatActivity{
 
         imgLike = findViewById(R.id.img_like);
         imgLike.setTag("collect");
+
+        refreshLayout=findViewById(R.id.smart_layout);
 
     }
 
@@ -243,7 +268,8 @@ public class MovieDetailsActivity extends AppCompatActivity{
     }
 
     public void findPlaceByMovieId(int movieId) {
-        FormBody body = new FormBody.Builder().add("movieId", String.valueOf(movieId)).build();
+        FormBody body = new FormBody.Builder().add("movieId", String.valueOf(movieId))
+                .add("pageNumber", String.valueOf(pageNumber)).build();
         Request request = new Request.Builder()
                 .url(Constant.INDEX_URL + "findPlaceByMovieId")
                 .post(body)

@@ -2,6 +2,7 @@ package com.example.msl.rainbow1;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class SettingsActivity extends AppCompatActivity {
     private RelativeLayout rlEdit;
@@ -20,11 +22,13 @@ public class SettingsActivity extends AppCompatActivity {
     private RelativeLayout rlAbout;
     private RelativeLayout rlExit;
     private ImageView ivLeft;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        sharedPreferences = getSharedPreferences("loginInfo",MODE_PRIVATE);
         findViews();
         MyListener myListener = new MyListener();
         rlSafety.setOnClickListener(myListener);
@@ -70,6 +74,9 @@ public class SettingsActivity extends AppCompatActivity {
                                 public void onClick(DialogInterface dialog, int whichButton) {
                                     Intent intent3 = new Intent(SettingsActivity.this,MainActivity.class);
                                     Constant.USER_STATUS = null;
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.putString("user",null);
+                                    editor.commit();
                                     startActivity(intent3);
                                 }
                             })

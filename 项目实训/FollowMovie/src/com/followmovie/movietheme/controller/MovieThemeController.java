@@ -96,10 +96,11 @@ public class MovieThemeController extends Controller {
 	}
 	//字符串数组转化为字符串
 	private String typeToString(List<String>types){
-        String str = "";
-        for (int i = 0;i<types.size();i++){
-            str = str+" "+types.get(i);
+		String str = "";
+        for (int i = 0;i<types.size()-1;i++){
+            str = str+types.get(i)+"/";
         }
+        str=str+types.get(types.size()-1);
 
         return str;
     }

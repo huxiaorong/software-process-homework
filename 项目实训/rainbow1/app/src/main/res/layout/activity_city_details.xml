@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical">
+
+    <!-- 顶部返回和标题 -->
+    <LinearLayout
+        android:background="#F2F2F2"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/returnback" />
+
+        <TextView
+            android:text="城市"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:layout_marginRight="40dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+    <!-- 开头介绍 -->
+    <LinearLayout
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/iv_city"
+            android:src="@drawable/greatwall"
+            android:layout_width="250dp"
+            android:layout_height="165dp" />
+
+        <LinearLayout
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_city"
+                android:text="北京"
+                android:textColor="#101010"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_country"
+                android:layout_marginTop="10dp"
+                android:text="中国 首都"
+                android:textColor="#101010"
+                android:textSize="14sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_description"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:textColor="#101010"
+                android:textSize="14sp"
+                android:text="北京是一座迷人的城市,既有古典风韵,又具时尚气息"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <ListView
+        android:layout_marginTop="15dp"
+        android:id="@+id/lv_citydetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </ListView>
+    
+</LinearLayout>

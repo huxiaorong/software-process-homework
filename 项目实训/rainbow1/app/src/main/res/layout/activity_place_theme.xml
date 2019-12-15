@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:overScrollMode="never"
+    android:scrollbars="none"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    >
+<LinearLayout android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!-- 顶部返回键 -->
+    <LinearLayout
+        android:background="#F2F2F2"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:orientation="horizontal"
+        android:gravity="left">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/returnback" />
+        
+    </LinearLayout>
+
+    <!-- 开头图片和文字介绍 -->
+    <LinearLayout
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/img_theme"
+            android:scaleType="centerCrop"
+            android:src="@drawable/tower"
+            android:layout_width="match_parent"
+            android:layout_height="115dp" />
+
+        <TextView
+            android:id="@+id/tv_theme_title"
+            android:layout_marginTop="20dp"
+            android:text="西西里的美丽传说"
+            android:textSize="20sp"
+            android:textColor="#101010"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_theme_general"
+            android:layout_marginTop="20dp"
+            android:text="取景精选"
+            android:textSize="14sp"
+            android:textColor="#101010"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_theme_produce"
+            android:layout_marginTop="15dp"
+            android:text="歌德说：如果不去西西里，就像是没去过意大利。
+西西里是意大利的美丽之源。
+被誉为地中海“明珠”的西西里岛，
+拥有着醉人的海岛风光。"
+            android:singleLine="false"
+            android:textSize="14sp"
+            android:textColor="#101010"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+    <!--<ListView-->
+        <!--android:id="@+id/lv_theme"-->
+        <!--android:layout_marginTop="15dp"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"/>-->
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="20dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="235dp">
+
+        <LinearLayout
+            android:id="@+id/ll_spot1"
+            android:background="#F2F2F2"
+            android:orientation="vertical"
+            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/iv_spot1"
+                    android:scaleType="centerCrop"
+                    android:layout_width="match_parent"
+                    android:layout_height="142dp"
+                    android:src="@drawable/balemo" />
+
+                <TextView
+                    android:id="@+id/tv_spot_name1"
+                    android:text="巴勒莫阳光海岸"
+                    android:textColor="#101010"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tv_address1"
+                    android:layout_marginTop="6dp"
+                    android:text="意大利 / 西西里岛 / 锡拉库萨镇"
+                    android:textColor="#101010"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_spot_movie1"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_marginTop="40dp"
+                android:text="FILMED"
+                android:textColor="#101010"
+                android:textSize="14sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_spot_movie_name1"
+                android:singleLine="false"
+                android:text="西西里的美丽传说"
+                android:textSize="14sp"
+                android:textColor="#101010"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+
+
+
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="20dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="235dp">
+
+        <LinearLayout
+            android:id="@+id/ll_spot_movie2"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_marginTop="40dp"
+                android:text="FILMED"
+                android:textColor="#101010"
+                android:textSize="14sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_spot_movie_name2"
+                android:singleLine="false"
+                android:text="教父"
+                android:textSize="14sp"
+                android:textColor="#101010"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_spot2"
+            android:background="#F2F2F2"
+            android:orientation="vertical"
+            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/iv_spot2"
+                    android:scaleType="centerCrop"
+                    android:layout_width="match_parent"
+                    android:layout_height="142dp"
+                    android:src="@drawable/godfather" />
+
+                <TextView
+                    android:id="@+id/tv_spot_name2"
+                    android:text="巴勒莫大教堂"
+                    android:textColor="#101010"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tv_address2"
+                    android:layout_marginTop="6dp"
+                    android:text="意大利 / 西西里岛 "
+                    android:textColor="#101010"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="20dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="235dp">
+
+        <LinearLayout
+            android:id="@+id/ll_spot3"
+            android:background="#F2F2F2"
+            android:orientation="vertical"
+            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/iv_spot3"
+                    android:scaleType="centerCrop"
+                    android:layout_width="match_parent"
+                    android:layout_height="142dp"
+                    android:src="@drawable/balemo" />
+
+                <TextView
+                    android:id="@+id/tv_spot_name3"
+                    android:text="巴勒莫阳光海岸"
+                    android:textColor="#101010"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tv_address3"
+                    android:layout_marginTop="6dp"
+                    android:text="意大利 / 西西里岛 / 锡拉库萨镇"
+                    android:textColor="#101010"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_spot_movie3"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_marginTop="40dp"
+                android:text="FILMED"
+                android:textColor="#101010"
+                android:textSize="14sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_spot_movie_name3"
+                android:singleLine="false"
+                android:text="西西里的美丽传说"
+                android:textSize="14sp"
+                android:textColor="#101010"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+
+
+
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="20dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="235dp">
+
+        <LinearLayout
+            android:id="@+id/ll_spot_movie4"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_marginTop="40dp"
+                android:text="FILMED"
+                android:textColor="#101010"
+                android:textSize="14sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/tv_spot_movie_name4"
+                android:singleLine="false"
+                android:text="教父"
+                android:textSize="14sp"
+                android:textColor="#101010"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_spot4"
+            android:background="#F2F2F2"
+            android:orientation="vertical"
+            android:layout_weight="2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/iv_spot4"
+                    android:scaleType="centerCrop"
+                    android:layout_width="match_parent"
+                    android:layout_height="142dp"
+                    android:src="@drawable/godfather" />
+
+                <TextView
+                    android:id="@+id/tv_spot_name4"
+                    android:text="巴勒莫大教堂"
+                    android:textColor="#101010"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tv_address4"
+                    android:layout_marginTop="6dp"
+                    android:text="意大利 / 西西里岛 "
+                    android:textColor="#101010"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+</LinearLayout>
+</ScrollView>

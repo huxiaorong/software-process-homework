@@ -1,7 +1,9 @@
 package com.example.msl.rainbow1;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -53,6 +55,8 @@ public class LoginActivity extends AppCompatActivity {
     private String rsp;
     private String phone;
     private ImageView ivLeft;
+    private SharedPreferences sharedPreferences;
+
     private Handler mainHandle = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -63,10 +67,19 @@ public class LoginActivity extends AppCompatActivity {
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
                         Constant.USER_STATUS = gson.fromJson(rsp,User.class);
+                        isAuto();
                         startActivity(intent);
                     }else{
                         Toast.makeText(LoginActivity.this, rsp, Toast.LENGTH_SHORT).show();
                     }
+                    break;
+                case 2:
+                    Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+                    Constant.USER_STATUS = gson.fromJson(rsp,User.class);
+                    isAuto();
+                    startActivity(intent);
                     break;
             }
         }
@@ -75,6 +88,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sharedPreferences = getSharedPreferences("loginInfo",MODE_PRIVATE);
         setContentView(R.layout.activity_login);
         findViews();
         bindListener();
@@ -120,7 +134,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                     break;
                 case R.id.iv_qq:
-                    Platform plat = ShareSDK.getPlatform(QQ.NAME);
+                    final Platform plat = ShareSDK.getPlatform(QQ.NAME);
                     //移除授权状态和本地缓存，下次授权会重新授权
                     plat.removeAccount(true);
                     //SSO授权，传false默认是客户端授权,没有客户端授权或者不支持客户端授权会跳web授权；设置成true是关闭SSO授权(关闭客户端授权)
@@ -155,34 +169,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     break;
                 case R.id.iv_weibo:
-                    Platform weibo = ShareSDK.getPlatform(SinaWeibo.NAME);
-                    weibo.SSOSetting(false);  //设置false表示使用SSO授权方式
-                    weibo.setPlatformActionListener(new PlatformActionListener() {
-                        @Override
-                        public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
-                            if (i == Platform.ACTION_USER_INFOR) {
-                                PlatformDb platDB = platform.getDb();//获取数平台数据DB
-                                //通过DB获取各种数据
-                                Log.e("token",platDB.getToken());
-                                Log.e("userGender",platDB.getUserGender());
-                                platDB.getUserIcon();
-                                Log.e("userId",platDB.getUserId());
-                                Log.e("username",platDB.getUserName());
-                            }
-                        }
 
-                        @Override
-                        public void onError(Platform platform, int i, Throwable throwable) {
-
-                        }
-
-                        @Override
-                        public void onCancel(Platform platform, int i) {
-
-                        }
-                    }); // 设置分享事件回调
-                    ShareSDK.setActivity(LoginActivity.this);//抖音登录适配安卓9.0
-                    weibo.showUser(null);//单独授权
                     break;
                 case R.id.iv_chat:
                     //java
@@ -203,6 +190,19 @@ public class LoginActivity extends AppCompatActivity {
                     finish();
                     break;
             }
+        }
+    }
+
+
+
+    private void isAuto(){
+        //判断并保存数据
+        if(etPhoneNum.length()>0 && etPwd.length()>0){
+            //创建Editor对象，实现写入的操作
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+            editor.putString("user",gson.toJson(Constant.USER_STATUS));
+            editor.commit();
         }
     }
     public void sendCode(Context context) {
@@ -322,7 +322,7 @@ public class LoginActivity extends AppCompatActivity {
     private void qqLogin(String id,String username) {
         OkHttpClient okHttpClient = new OkHttpClient();
         FormBody body = new FormBody.Builder()
-                .add("id", id)
+                .add("qqId", id)
                 .add("username",username)
                 .build();
         Request request = new Request.Builder()
@@ -341,7 +341,7 @@ public class LoginActivity extends AppCompatActivity {
                 rsp = response.body().string();
                 Log.e("rsp", rsp);
                 Message msg = new Message();
-                msg.what = 1;
+                msg.what = 2;
                 mainHandle.sendMessage(msg);
 
             }

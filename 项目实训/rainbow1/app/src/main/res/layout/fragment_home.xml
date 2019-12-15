@@ -1,265 +1,204 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/smart_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    app:srlEnableFooterFollowWhenLoadFinished="true"
+    app:srlEnableScrollContentWhenLoaded="true">
 
-    <SearchView
-        android:id="@+id/search_content"
+    <com.scwang.smartrefresh.layout.header.ClassicsHeader
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/searchdesign"
-        android:iconifiedByDefault="false"
-        android:imeOptions="actionSearch"
-        android:queryHint="请输入搜索内容"></SearchView>
+        android:layout_height="wrap_content" />
 
-
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:overScrollMode="never"
-        android:scrollbars="none">
+        android:orientation="vertical">
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <SearchView
+            android:id="@+id/search_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/searchdesign"
+            android:iconifiedByDefault="false"
+            android:imeOptions="actionSearch"
+            android:queryHint="请输入搜索内容"></SearchView>
+
+
+        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:clipToPadding="false"
+            android:overScrollMode="never"
+            android:scrollbars="none">
 
-            <com.hejunlin.superindicatorlibray.LoopViewPager
-                android:id="@+id/looperviewpager"
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="350dp">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-                <FrameLayout
-                    android:id="@+id/frame_carousel"
+                <com.hejunlin.superindicatorlibray.LoopViewPager
+                    android:id="@+id/looperviewpager"
                     android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:layout_gravity="bottom"
-                    android:clickable="true"
-                    android:onClick="onClicked">
+                    android:layout_height="350dp">
 
-                    <com.hejunlin.superindicatorlibray.CircleIndicator
-                        android:id="@+id/indicator"
+                    <FrameLayout
+                        android:id="@+id/frame_carousel"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:orientation="horizontal" />
-                </FrameLayout>
-            </com.hejunlin.superindicatorlibray.LoopViewPager>
+                        android:layout_height="48dp"
+                        android:layout_gravity="bottom"
+                        android:clickable="true"
+                        android:onClick="onClicked">
 
+                        <com.hejunlin.superindicatorlibray.CircleIndicator
+                            android:id="@+id/indicator"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:orientation="horizontal" />
+                    </FrameLayout>
+                </com.hejunlin.superindicatorlibray.LoopViewPager>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
-                android:text="最近更新"
-                android:textSize="20sp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:id="@+id/lv_update1"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/img_pic1"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="4" />
-
-                    <TextView
-                        android:id="@+id/tv_update_1"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:textSize="17sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/lv_update2"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/img_pic2"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="4" />
-
-                    <TextView
-                        android:id="@+id/tv_update_2"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:textSize="20sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/lv_update3"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:id="@+id/img_pic3"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="4" />
-
-                    <TextView
-                        android:id="@+id/tv_update_3"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:textSize="20sp" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/btn_more"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/button_edge"
-                android:text="more"
-                android:textAllCaps="false"
-                android:textColor="#101010"
-                android:textSize="15sp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:layout_marginTop="20dp"
-                android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="40dp"
-                    android:text="猜你喜欢"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:text="最近更新"
                     android:textSize="20sp" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/lv_update1"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/img_pic1"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="4" />
+
+                        <TextView
+                            android:id="@+id/tv_update_1"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:textSize="17sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/lv_update2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/img_pic2"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="4" />
+
+                        <TextView
+                            android:id="@+id/tv_update_2"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:textSize="20sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/lv_update3"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/img_pic3"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="4" />
+
+                        <TextView
+                            android:id="@+id/tv_update_3"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:textSize="20sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btn_more"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/button_edge"
+                    android:text="more"
+                    android:textAllCaps="false"
+                    android:textColor="#101010"
+                    android:textSize="15sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="20dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="40dp"
+                        android:text="猜你喜欢"
+                        android:textSize="20sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:src="@drawable/guesslikelogo" />
+                </LinearLayout>
+
+                <com.example.msl.rainbow1.GridViewGuess
                     android:layout_marginLeft="15dp"
-                    android:src="@drawable/guesslikelogo" />
+                    android:layout_marginRight="15dp"
+                    android:id="@+id/grid"
+                    android:layout_width="match_parent"
+                    android:layout_height="800dp"
+                    android:columnWidth="220dp"
+                    android:horizontalSpacing="10dp"
+                    android:numColumns="2"
+                    android:verticalSpacing="10dp">
+
+                </com.example.msl.rainbow1.GridViewGuess>
             </LinearLayout>
+        </ScrollView>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="130dp"
-                android:layout_marginBottom="10dp"
-                android:orientation="horizontal">
+    </LinearLayout>
 
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="130dp"
-                    android:layout_weight="4"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/guesslikepicture" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="3"
-                    android:gravity="center"
-                    android:text="aaaaaaaaaaaaaaaaaa" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="130dp"
-                android:layout_marginBottom="10dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="3"
-                    android:gravity="center"
-                    android:text="aaaaaaaaaaaaaaaaaa" />
-
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="130dp"
-                    android:layout_weight="4"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/guesslikepicture" />
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="130dp"
-                android:layout_marginBottom="10dp"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="130dp"
-                    android:layout_weight="4"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/guesslikepicture" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="3"
-                    android:gravity="center"
-                    android:text="aaaaaaaaaaaaaaaaaa" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="130dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="3"
-                    android:gravity="center"
-                    android:text="aaaaaaaaaaaaaaaaaa" />
-
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="130dp"
-                    android:layout_weight="4"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/guesslikepicture" />
-
-
-            </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
-
-</LinearLayout>
+    <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</com.scwang.smartrefresh.layout.SmartRefreshLayout>

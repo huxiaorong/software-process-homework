@@ -45,6 +45,7 @@
         android:textSize="20sp" />
 
     <TextView
+        android:id="@+id/tv_popular_searches"
         android:layout_width="wrap_content"
         android:layout_height="35dp"
         android:background="#D4E3EE"
@@ -60,6 +61,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -70,6 +72,16 @@
             android:layout_alignParentRight="true"
             android:src="@drawable/delete"
             android:layout_width="wrap_content"
-            android:layout_height="35dp" />
+            android:layout_height="35dp"
+            android:onClick="onClicked"/>
+
+
+
+
     </RelativeLayout>
+    <!--控件-->
+    <com.example.library.AutoFlowLayout
+        android:id="@+id/flowLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </LinearLayout>

@@ -1,12 +1,20 @@
 package com.followmovie.masuli.controller;
 
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 import com.jfinal.core.Controller;
+import com.jfinal.core.JFinal;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Record;
+import com.jfinal.upload.UploadFile;
 
 
 
@@ -136,7 +144,7 @@ public class CenterController extends Controller {
 	public void qqLogin(){
 		String qqId = get("id");
 		String username = get("username");
-		Record user = Db.findFirst("select * from user where qqId ='"+ qqId );
+		Record user = Db.findFirst("select * from user where qqId = '"+ qqId +"'" );
 		if(user == null){
 			Record user1 = new Record().set("qqId", qqId).set("username", username);
 			Db.save("user", user1);
@@ -145,5 +153,18 @@ public class CenterController extends Controller {
 			renderJson(user);
 		}
 		
+	}
+	
+	public void upload() throws IOException{
+		UploadFile upfile = getFile();
+		File file = upfile.getFile();
+		String fileName = new SimpleDateFormat("yyyyMMddkkmmss").format(new Date())+".jpg";
+		String path = "E:/learning/java企业级应用开发一/demo/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/FollowMovie/headPicture/"+fileName;
+		File saveFile = new File(path);
+		upfile.getFile().renameTo(saveFile);
+		String id = get("userId");
+		Record user1 = Db.findById("user", id).set("headPicture", fileName);
+		Db.update("user", user1);
+		renderJson(fileName);
 	}
 }

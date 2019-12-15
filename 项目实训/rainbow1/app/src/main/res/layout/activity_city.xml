@@ -1,0 +1,1170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:overScrollMode="never"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- 顶部搜索和标题 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:background="#F2F2F2"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/iv_search"
+                android:layout_width="wrap_content"
+                android:layout_height="44dp"
+                android:layout_marginLeft="10dp"
+                android:onClick="onClicked"
+                android:src="@drawable/search" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginRight="40dp"
+                android:gravity="center"
+                android:text="城市"
+                android:textSize="20dp" />
+
+
+        </LinearLayout>
+
+        <!-- 顶部主题 -->
+        <LinearLayout
+            android:id="@+id/ll_head"
+            android:layout_width="match_parent"
+            android:layout_height="293dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:onClick="onClicked"
+            android:orientation="vertical">
+
+            <ImageView
+                android:scaleType="fitXY"
+                android:id="@+id/img_head"
+                android:layout_width="384dp"
+                android:layout_height="219dp"
+                android:layout_gravity="center"
+                android:src="@drawable/sicily" />
+
+            <TextView
+                android:id="@+id/tv_head_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="26dp"
+                android:layout_marginTop="13dp"
+                android:text="西西里的传说"
+                android:textColor="#101010"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/tv_head_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="26dp"
+                android:layout_marginTop="2dp"
+                android:text="西西里的美丽故事"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <!-- 虚线分割线 -->
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="10dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/dash_line"
+            android:layerType="software" />
+
+        <!-- 分类 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="380dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp"
+            android:background="#E7EAF2"
+            android:gravity="center">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="340dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:background="#FFFFFF"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_all"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:text="全部"
+                    android:textSize="36sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_mainland"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="中国大陆"
+                        android:textSize="26sp" />
+
+                    <TextView
+                        android:id="@+id/tv_usa"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="美国"
+                        android:textSize="26sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_france"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="法国"
+                        android:textSize="26sp" />
+
+                    <TextView
+                        android:id="@+id/tv_korea"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="韩国"
+                        android:textSize="26sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="25dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_travelspot"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="旅游景点"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/tv_historical"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="历史建筑"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/tv_natural"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="自然风光"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/tv_food"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.6"
+                        android:gravity="center"
+                        android:text="餐饮"
+                        android:textSize="18sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="25dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_shop"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="商铺"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/tv_hotel"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="酒店"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/tv_landmark"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="地标"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/tv_region"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.2"
+                        android:gravity="center"
+                        android:text="宗教场所"
+                        android:textSize="18sp" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- 虚线分割线 -->
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="10dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/dash_line"
+            android:layerType="software" />
+
+        <!-- 热门城市 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="热门城市"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="Hot Spots"
+                android:textColor="#60626C"
+                android:textSize="20sp" />
+
+            <!-- 大理 -->
+            <LinearLayout
+                android:id="@+id/ll_first_city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:onClick="onClicked"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/img_first_city"
+                    android:layout_width="206dp"
+                    android:layout_height="133dp"
+                    android:src="@drawable/dali" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_first_city_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="30dp"
+                        android:text="大理"
+                        android:textSize="28sp" />
+
+                    <TextView
+                        android:id="@+id/tv_first_city_country"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="15dp"
+                        android:text="·中国"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- 香港 -->
+            <LinearLayout
+                android:id="@+id/ll_second_city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:onClick="onClicked"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_second_city_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="30dp"
+                        android:text="香港"
+                        android:textSize="28sp" />
+
+                    <TextView
+                        android:id="@+id/tv_second_city_country"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="15dp"
+                        android:text="·中国"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/img_second_city"
+                    android:layout_width="206dp"
+                    android:layout_height="133dp"
+                    android:src="@drawable/hongkong" />
+
+            </LinearLayout>
+
+            <!-- 重庆 -->
+            <LinearLayout
+                android:id="@+id/ll_third_city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:onClick="onClickd"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/img_third_city"
+                    android:layout_width="206dp"
+                    android:layout_height="133dp"
+                    android:src="@drawable/chongqing" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_third_city_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="30dp"
+                        android:text="重庆"
+                        android:textSize="28sp" />
+
+                    <TextView
+                        android:id="@+id/tv_third_city_country"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="15dp"
+                        android:text="·中国"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- 北京 -->
+            <LinearLayout
+                android:id="@+id/ll_forth_city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:onClick="onClicked"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_forth_city_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="30dp"
+                        android:text="北京"
+                        android:textSize="28sp" />
+
+                    <TextView
+                        android:id="@+id/tv_forth_city_country"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="15dp"
+                        android:text="·中国"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/img_forth_city"
+                    android:layout_width="206dp"
+                    android:layout_height="133dp"
+                    android:src="@drawable/bejing" />
+            </LinearLayout>
+
+            <!-- 更多 -->
+            <LinearLayout
+                android:id="@+id/ll_more_city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/border"
+                android:gravity="center"
+                android:onClick="onClicked">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="more"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/next" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <!-- 虚线分割线 -->
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="10dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/dash_line"
+            android:layerType="software" />
+
+        <!-- 热门景点 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="15dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="热门景点"
+                android:textColor="#02030B"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="Hot Spots"
+                android:textColor="#60626C"
+                android:textSize="20sp" />
+
+            <!--  钵兰街 -->
+            <LinearLayout
+                android:id="@+id/ll_big_place"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:onClick="onClicked"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/img_big_place"
+                        android:layout_width="0dp"
+                        android:layout_height="160dp"
+                        android:layout_weight="3"
+                        android:src="@drawable/bolanjie" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1.6"
+                        android:gravity="center">
+
+                        <TextView
+                            android:id="@+id/tv_big_place_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="20dp"
+                            android:ems="1"
+                            android:gravity="center"
+                            android:text="钵兰街"
+                            android:textSize="20dp" />
+
+                        <TextView
+                            android:id="@+id/tv_big_place_address"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="3dp"
+                            android:ems="1"
+                            android:text="中国 香港"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_big_place_filmed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="FILMED 古惑仔"
+                    android:textColor="#101010"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <!-- 愿与你踏遍每一寸土地 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="愿与你踏遍每一寸土地"
+                    android:textColor="#101010"
+                    android:textSize="14sp" />
+                <!-- 4张图片 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <!-- 芝加哥夜景 -->
+                    <LinearLayout
+                        android:id="@+id/ll_first_place"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:onClick="onClicked"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/img_first_place"
+                            android:layout_width="75dp"
+                            android:layout_height="53dp"
+                            android:src="@drawable/chicago" />
+
+                        <TextView
+                            android:id="@+id/tv_first_place"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="芝加哥夜景"
+                            android:textColor="#101010"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+                    <!-- 开平碉堡 -->
+                    <LinearLayout
+                        android:id="@+id/ll_second_place"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:onClick="onClicked"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/img_second_place"
+                            android:layout_width="75dp"
+                            android:layout_height="53dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/kaiping" />
+
+                        <TextView
+                            android:id="@+id/tv_second_place"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="开平碉堡"
+                            android:textColor="#101010"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <!-- 霍格沃兹教堂 -->
+                    <LinearLayout
+                        android:id="@+id/ll_third_place"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:onClick="onClicked"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/img_third_place"
+                            android:layout_width="75dp"
+                            android:layout_height="53dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/hogwarts" />
+
+                        <TextView
+                            android:id="@+id/tv_third_place"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="霍格沃兹教堂"
+                            android:textColor="#101010"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+
+                    <!-- 达勒姆大教堂 -->
+                    <LinearLayout
+                        android:id="@+id/ll_forth_place"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:onClick="onClicked"
+                        android:orientation="vertical">
+
+                        <ImageView
+                            android:id="@+id/img_forth_place"
+                            android:layout_width="75dp"
+                            android:layout_height="53dp"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/durham" />
+
+                        <TextView
+                            android:id="@+id/tv_forth_place"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="达勒姆大教堂"
+                            android:textColor="#101010"
+                            android:textSize="12sp" />
+
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_more_spots"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="13dp"
+                android:layout_marginRight="13dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/border"
+                android:gravity="center"
+                android:onClick="onClicked">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="more"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/next" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- 虚线分割线 -->
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="10dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/dash_line"
+            android:layerType="software" />
+
+        <!-- 电影专题 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="15dp"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/img_first_theme"
+                android:layout_width="match_parent"
+                android:layout_height="92dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/sicilytheroy" />
+
+            <TextView
+                android:id="@+id/tv_first_theme"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="如果不去西西里，就像是没去过意大利"
+                android:textColor="#808080"
+                android:textSize="16sp" />
+
+            <LinearLayout
+                android:id="@+id/ll_one_big"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="onClicked"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/img_theme_first_big"
+                    android:layout_width="280dp"
+                    android:layout_height="171dp"
+                    android:layout_marginTop="20dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/balemo" />
+
+                <TextView
+                    android:id="@+id/tv_theme_first_big_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="巴勒莫"
+                    android:textColor="#101010"
+                    android:textSize="21sp" />
+
+                <TextView
+                    android:id="@+id/tv_theme_first_big_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:text="意大利 西西里岛"
+                    android:textColor="#B0B0B0"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/tv_theme_first_big_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:text="西西里大区的首府，是有着两千多年历史的古老港口城市"
+                    android:textColor="#808080"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp">
+
+                <LinearLayout
+                    android:id="@+id/ll_one_small"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:onClick="onClicked">
+
+                    <ImageView
+                        android:id="@+id/img_one_small"
+                        android:layout_width="86dp"
+                        android:layout_height="60dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/godfather" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_two_small"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:onClick="onClicked">
+
+                    <ImageView
+                        android:id="@+id/img_two_small"
+                        android:layout_width="86dp"
+                        android:layout_height="60dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/volcano" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_three_small"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:onClick="onClickd">
+
+                    <ImageView
+                        android:id="@+id/img_three_small"
+                        android:layout_width="86dp"
+                        android:layout_height="60dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/paradise" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_four_small"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:onClick="onClicked">
+
+                    <ImageView
+                        android:id="@+id/img_four_small"
+                        android:layout_width="86dp"
+                        android:layout_height="60dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/seaandsky" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_more_sicily"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="13dp"
+                android:layout_marginRight="13dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/border"
+                android:gravity="center"
+                android:onClick="onClicked">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="more"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:layout_marginLeft="10dp"
+                    android:src="@drawable/next" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- 虚线分割线 -->
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="10dp"
+            android:layout_marginRight="60dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/dash_line"
+            android:layerType="software" />
+
+        <!-- 漫威 -->
+        <LinearLayout
+            android:id="@+id/ll_one_theme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="60dp"
+            android:layout_marginTop="15dp"
+            android:onClick="onClicked"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/img_one_theme"
+                    android:layout_width="270dp"
+                    android:layout_height="80dp"
+                    android:scaleType="fitXY"/>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/tv_one_theme_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|right"
+                        android:textColor="#101010"
+                        android:textSize="20sp" />
+                </FrameLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp">
+
+                <TextView
+                    android:id="@+id/tv_one_theme_brief"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="right"
+                    android:gravity="right"
+                    android:textColor="#808080"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- 虚线分割线 -->
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="10dp"
+            android:layout_marginLeft="60dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/dash_line"
+            android:layerType="software" />
+
+        <!-- 宫崎骏 -->
+        <LinearLayout
+            android:id="@+id/ll_two_theme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="15dp"
+            android:onClick="onClicked"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_two_theme_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|left"
+                    android:text="宫崎骏"
+                    android:textColor="#101010"
+                    android:textSize="20sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/img_two_theme"
+                        android:layout_width="270dp"
+                        android:layout_height="80dp"
+                        android:layout_gravity=""
+                        android:scaleType="fitXY"
+                        android:src="@drawable/gongqijun" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_two_theme_brief"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="动漫与现实"
+                android:textColor="#808080"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <!-- 虚线分割线 -->
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="10dp"
+            android:layout_marginRight="60dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/dash_line"
+            android:layerType="software" />
+
+        <!-- 涩谷 -->
+        <LinearLayout
+            android:id="@+id/ll_three_theme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="60dp"
+            android:layout_marginTop="15dp"
+            android:onClick="onClicked"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/img_three_theme"
+                    android:layout_width="270dp"
+                    android:layout_height="80dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/seguzhan" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/tv_three_theme_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|right"
+                        android:text="涩谷站"
+                        android:textColor="#101010"
+                        android:textSize="20sp" />
+                </FrameLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp">
+
+                <TextView
+                    android:id="@+id/tv_three_theme_brief"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="right"
+                    android:gravity="right"
+                    android:text="全世界最大的交叉路口"
+                    android:textColor="#808080"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- 虚线分割线 -->
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="10dp"
+            android:layout_marginLeft="60dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/dash_line"
+            android:layerType="software" />
+
+        <!-- 曼谷唐人街 -->
+        <LinearLayout
+            android:id="@+id/ll_four_theme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="15dp"
+            android:onClick="onClicked"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_four_theme_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|left"
+                    android:text="曼谷唐人街"
+                    android:textColor="#101010"
+                    android:textSize="20sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/img_four_theme"
+                        android:layout_width="270dp"
+                        android:layout_height="80dp"
+                        android:layout_gravity=""
+                        android:scaleType="fitXY"
+                        android:src="@drawable/bangkokchinatown" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_four_theme_brief"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="名副其实的“中国城”"
+                android:textColor="#808080"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <!-- 底部留白 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp">
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

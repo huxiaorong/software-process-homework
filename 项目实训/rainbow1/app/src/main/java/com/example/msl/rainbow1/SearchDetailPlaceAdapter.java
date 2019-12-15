@@ -8,6 +8,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,7 +61,17 @@ public class SearchDetailPlaceAdapter extends BaseAdapter {
         }
         viewHolder.tvPlaceName.setText(placeList.get(position).getName());
         viewHolder.tvDescription.setText(placeList.get(position).getDescription());
-        //viewHolder.imgPlacePicture.setImageResource(placeList.get(position).getImg());
+
+        RequestOptions options = new RequestOptions()
+                        .placeholder(R.drawable.loading)//请求过程中显示
+                        .error(R.drawable.error)//请求失败显示
+                        .fallback(R.drawable.defaultimg);//请求的URL为null时显示
+        Glide.with(context)
+                .load(Constant.BASE_IP+"place/"+placeList.get(position).getImg())
+                .apply(options)
+                .into(viewHolder.imgPlacePicture);
+
+//        viewHolder.imgPlacePicture.setImageResource(placeList.get(position).getImg());
         return convertView;
     }
 

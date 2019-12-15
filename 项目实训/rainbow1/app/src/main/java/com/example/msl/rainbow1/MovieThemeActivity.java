@@ -5,6 +5,8 @@ import android.media.tv.TvContentRating;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -47,7 +49,7 @@ public class MovieThemeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_theme);
-        Intent intent = getIntent();
+        final Intent intent = getIntent();
         reStr1 = intent.getStringExtra("movies");
         reStr2 = intent.getStringExtra("movieTypes");
         reStr3 = intent.getStringExtra("movieCities");
@@ -56,7 +58,21 @@ public class MovieThemeActivity extends AppCompatActivity {
         findView();
         init();
         dataFill();
-
+        imgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        lvMovieList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent1 = new Intent(MovieThemeActivity.this,MovieDetailsActivity.class);
+                intent1.putExtra("movieId",movieList.get(position).getMovieId());
+                intent1.putExtra("type",movieTypes.get(position));
+                startActivity(intent1);
+            }
+        });
     }
     private void init(){
         gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();

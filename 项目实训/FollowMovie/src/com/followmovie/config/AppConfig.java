@@ -1,6 +1,8 @@
 package com.followmovie.config;
 
 import com.followmovie.masuli.controller.CenterController;
+import com.followmovie.model.Dynamic;
+import com.followmovie.model.DynamicPicture;
 import com.followmovie.model.HotCity;
 import com.followmovie.model.HotPlace;
 import com.followmovie.model.Movie;
@@ -13,9 +15,12 @@ import com.followmovie.model.PlaceTheme;
 import com.followmovie.model.SearchHistory;
 import com.followmovie.model.ThemeMovieComparison;
 import com.followmovie.model.ThemePlaceComparison;
+import com.followmovie.model.User;
+import com.followmovie.model.praise;
 import com.followmovie.movietheme.controller.MovieThemeController;
 import com.followmovie.placetheme.controller.PlaceThemeController;
 import com.followmovie.search.controller.SearchController;
+import com.followmovie.wangyeying.controller.NewDynamicController;
 import com.followmovie.weixinxin.controller.IndexController;
 import com.jfinal.config.Constants;
 import com.jfinal.config.Handlers;
@@ -60,6 +65,7 @@ public class AppConfig extends JFinalConfig {
 		me.add("movieTheme",MovieThemeController.class);
 		me.add("/center",CenterController.class);
 		me.add("/index", IndexController.class);
+		me.add("/newdynamic",NewDynamicController.class);
 
 	}
 
@@ -89,6 +95,10 @@ public class AppConfig extends JFinalConfig {
 		arp.addMapping("themeplacecomparison", ThemePlaceComparison.class);
 		arp.addMapping("hotcity", HotCity.class);
 		arp.addMapping("hotplace", HotPlace.class);
+		arp.addMapping("dynamic",Dynamic.class);
+		arp.addMapping("dynamicpicture","id",DynamicPicture.class);
+		arp.addMapping("user", User.class);
+		arp.addMapping("praise", praise.class);
 	}
 
 	@Override

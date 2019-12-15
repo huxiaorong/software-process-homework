@@ -14,13 +14,13 @@ public abstract class BaseSearchHistory<M extends BaseSearchHistory<M>> extends 
 		return getInt("id");
 	}
 	
-	public M setUserId(java.lang.Integer userId) {
-		set("userId", userId);
+	public M setCount(java.lang.Integer count) {
+		set("count", count);
 		return (M)this;
 	}
 	
-	public java.lang.Integer getUserId() {
-		return getInt("userId");
+	public java.lang.Integer getCount() {
+		return getInt("count");
 	}
 	
 	public M setRecord(java.lang.String record) {

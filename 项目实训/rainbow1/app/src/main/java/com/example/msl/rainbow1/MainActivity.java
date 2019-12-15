@@ -1,6 +1,8 @@
 package com.example.msl.rainbow1;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -38,9 +40,11 @@ public class MainActivity extends AppCompatActivity{
     private ImageView ivCenter;
     private ImageView ivMovie;
     private TextView tvPost;
+    private SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sharedPreferences = getSharedPreferences("loginInfo",MODE_PRIVATE);
         setContentView(R.layout.activity_main);
         findViews();
         //绑定监听器
@@ -55,6 +59,12 @@ public class MainActivity extends AppCompatActivity{
         transaction.commit();
 
 
+
+        if(sharedPreferences.getString("user","")!=null){
+            String userJson = sharedPreferences.getString("user","");
+            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+            Constant.USER_STATUS = gson.fromJson(userJson,User.class);
+        }
 
 
 

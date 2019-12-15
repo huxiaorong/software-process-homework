@@ -1,175 +1,192 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/smart_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingLeft="15dp"
-    android:paddingRight="15dp">
+    app:srlEnableFooterFollowWhenLoadFinished="true"
+    app:srlEnableScrollContentWhenLoaded="true">
 
-    <RelativeLayout
+    <com.scwang.smartrefresh.layout.header.ClassicsHeader
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:gravity="center"
-            android:text="电影"
-            android:textSize="26sp" />
-
-        <ImageView
-            android:id="@+id/img_left"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="0dp"
-            android:onClick="onClicked"
-            android:src="@drawable/left" />
-    </RelativeLayout>
-
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:overScrollMode="never"
-        android:scrollbars="none">
+        android:orientation="vertical"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
 
-        <LinearLayout
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:gravity="center"
+                android:text="电影"
+                android:textSize="26sp" />
+
+            <ImageView
+                android:id="@+id/img_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="0dp"
+                android:onClick="onClicked"
+                android:src="@drawable/left" />
+        </RelativeLayout>
+
+        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tv_movie_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:maxLines="1"
-                android:textSize="25sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tv_movie_engname"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="30dp"
-                android:ellipsize="end"
-                android:gravity="center"
-                android:maxLines="1"
-                android:textSize="20sp" />
+            android:clipToPadding="false"
+            android:overScrollMode="never"
+            android:scrollbars="none">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/img_movie"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="20dp"
-                    android:layout_weight="2"
-                    android:scaleType="centerCrop" />
+                <TextView
+                    android:id="@+id/tv_movie_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_movie_engname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="30dp"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:textSize="20sp" />
 
                 <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="3"
-                    android:orientation="vertical">
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="right"
-                        android:layout_marginBottom="10dp"
-                        android:text="片场 "
-                        android:textSize="23sp" />
-
-                    <TextView
-                        android:id="@+id/tv_count"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="right"
-                        android:paddingRight="15dp"
-                        android:textSize="40sp" />
+                    <ImageView
+                        android:id="@+id/img_movie"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="20dp"
+                        android:layout_weight="2"
+                        android:scaleType="centerCrop" />
 
                     <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="100dp"
-                        android:orientation="horizontal">
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="3"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right"
+                            android:layout_marginBottom="10dp"
+                            android:text="片场 "
+                            android:textSize="23sp" />
+
+                        <TextView
+                            android:id="@+id/tv_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right"
+                            android:paddingRight="15dp"
+                            android:textSize="40sp" />
 
                         <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="3"
-                            android:orientation="vertical">
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp"
+                            android:orientation="horizontal">
 
-                            <TextView
-                                android:id="@+id/tv_type"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginBottom="10dp"
-                                android:ellipsize="end"
-                                android:maxLines="1"
-                                android:textSize="20sp" />
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="3"
+                                android:orientation="vertical">
 
-                            <TextView
-                                android:id="@+id/tv_country"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginBottom="10dp"
-                                android:textSize="20sp" />
+                                <TextView
+                                    android:id="@+id/tv_type"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="10dp"
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
+                                    android:textSize="20sp" />
 
-                            <TextView
-                                android:id="@+id/tv_release_year"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:textSize="20sp" />
+                                <TextView
+                                    android:id="@+id/tv_country"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="10dp"
+                                    android:textSize="20sp" />
 
+                                <TextView
+                                    android:id="@+id/tv_release_year"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="20sp" />
+
+                            </LinearLayout>
+
+                            <ImageView
+                                android:id="@+id/img_like"
+                                android:layout_width="0dp"
+                                android:layout_height="30dp"
+                                android:layout_marginTop="30dp"
+                                android:layout_weight="1"
+                                android:onClick="onClicked" />
                         </LinearLayout>
 
-                        <ImageView
-                            android:id="@+id/img_like"
-                            android:layout_width="0dp"
-                            android:layout_height="30dp"
-                            android:layout_marginTop="30dp"
-                            android:layout_weight="1"
-                            android:onClick="onClicked" />
                     </LinearLayout>
-
                 </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center"
+                    android:lineSpacingExtra="4dp"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="20dp"
+                    android:text="景点"
+                    android:textSize="20sp" />
+
+                <ListView
+                    android:id="@+id/lv_item_place"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:divider="@null"></ListView>
             </LinearLayout>
+        </ScrollView>
 
-            <TextView
-                android:id="@+id/tv_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:gravity="center"
-                android:lineSpacingExtra="4dp"
-                android:textSize="15sp" />
+    </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:layout_marginTop="20dp"
-                android:text="景点"
-                android:textSize="20sp" />
-
-            <ListView
-                android:id="@+id/lv_item_place"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:divider="@null"></ListView>
-        </LinearLayout>
-    </ScrollView>
-
-</LinearLayout>
+    <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</com.scwang.smartrefresh.layout.SmartRefreshLayout>

@@ -4,13 +4,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -22,6 +25,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.hejunlin.superindicatorlibray.LoopViewPager;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,7 +40,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 
-public class HomeFragment extends Fragment implements CarouselAdapter.OnClickListener{
+public class HomeFragment extends Fragment implements CarouselAdapter.OnClickListener {
     private OkHttpClient okHttpClient;
     private Glide glide;
     private String strCarouselMovie;//轮播图信息
@@ -59,6 +64,17 @@ public class HomeFragment extends Fragment implements CarouselAdapter.OnClickLis
     private LinearLayout lvUpdate2;
     private LinearLayout lvUpdate3;
     private int movieId;
+
+    private String strGuessLike;
+    private List<Movie> guessList = new ArrayList<>();
+    private GuessLikeAdapter guessLikeAdapter;
+    private GridView gridView;
+
+    private RefreshLayout refreshLayout;
+    private List<Movie> copyGuessList = new ArrayList<>();
+    private int step = 10;
+
+    private int pageNumber=1;
 
     private Handler mainHandle = new Handler() {
         @Override
@@ -92,12 +108,65 @@ public class HomeFragment extends Fragment implements CarouselAdapter.OnClickLis
                             .into(updateImg3);
                     break;
                 case 3:
-                    intent=new Intent(getActivity(),MovieDetailsActivity.class);
+                    intent = new Intent(getActivity(), MovieDetailsActivity.class);
                     intent.putExtra("movieId", movieId1);
                     intent.putExtra("type", strMovieType);
                     startActivity(intent);
                     break;
+                case 4:
+                    Log.e("ssssss", guessList.toString());
+                    copyGuessList.addAll(guessList.subList(0, step));
+                    guessLikeAdapter = new GuessLikeAdapter(copyGuessList, R.layout.item_guesslike, HomeFragment.this);
+                    Log.e("wwwwww", guessList.toString());
+                    Log.e("ppp", copyGuessList.toString());
+                    gridView.setAdapter(guessLikeAdapter);
 
+                    refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+                        @Override
+                        public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                            if (copyGuessList.size() + step < guessList.size()) {
+                                copyGuessList.addAll(guessList.subList(copyGuessList.size(), copyGuessList.size() + step));
+                                guessLikeAdapter.notifyDataSetChanged();
+                                refreshLayout.finishLoadMore();
+                            } else if (copyGuessList.size() < guessList.size()) {
+                                copyGuessList.addAll(guessList.subList(copyGuessList.size(), guessList.size()));
+                                guessLikeAdapter.notifyDataSetChanged();
+                                refreshLayout.finishLoadMore();
+                            } else {
+                                refreshLayout.finishLoadMore();
+                            }
+
+                        }
+                    });
+
+                    gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            findMovieTypeById(copyGuessList.get((int) id).getMovieId());
+                        }
+                    });
+
+                    break;
+                case 5:
+                    copyGuessList.addAll(guessList);
+                    guessLikeAdapter = new GuessLikeAdapter(copyGuessList, R.layout.item_guesslike, HomeFragment.this);
+                    gridView.setAdapter(guessLikeAdapter);
+                    refreshLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+                        @Override
+                        public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                            pageNumber = pageNumber + 1;
+                            recommendMovie();
+                            guessLikeAdapter.notifyDataSetChanged();
+                            refreshLayout.finishLoadMore();
+                        }
+                    });
+                    gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            findMovieTypeById(copyGuessList.get((int) id).getMovieId());
+                        }
+                    });
+                    break;
             }
         }
     };
@@ -107,7 +176,7 @@ public class HomeFragment extends Fragment implements CarouselAdapter.OnClickLis
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view =  inflater.inflate(R.layout.fragment_home, container, false);
+        view = inflater.inflate(R.layout.fragment_home, container, false);
         findView(view);
         btnMore.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,6 +220,12 @@ public class HomeFragment extends Fragment implements CarouselAdapter.OnClickLis
                 startActivity(intent);
             }
         });
+        if (Constant.USER_STATUS != null) {
+            Log.e("bbbb", "bbbb");
+            guessLike();
+        }else{
+            recommendMovie();
+        }
         return view;
     }
 
@@ -163,14 +238,15 @@ public class HomeFragment extends Fragment implements CarouselAdapter.OnClickLis
         setCarousel();//设置轮播图
         recentChanges();//最近更新
         recentChangesGetType();
-        if (getArguments() != null){
+        if (getArguments() != null) {
             movieId = Integer.parseInt(getArguments().getString("movieId"));
-            Log.e("5555",movieId+"");
+            Log.e("5555", movieId + "");
             findMovieTypeById(movieId);
         }
 
 
     }
+
     private void recentChangesGetType() {
         Request request = new Request.Builder()
                 .url(Constant.INDEX_URL + "recentChangesGetType")
@@ -203,7 +279,11 @@ public class HomeFragment extends Fragment implements CarouselAdapter.OnClickLis
         lvUpdate2 = view.findViewById(R.id.lv_update2);
         lvUpdate3 = view.findViewById(R.id.lv_update3);
 
+        gridView = view.findViewById(R.id.grid);
+        refreshLayout = view.findViewById(R.id.smart_layout);
+
     }
+
     private void setCarousel() {
         Request request = new Request.Builder()
                 .url(Constant.INDEX_URL + "carousel")
@@ -258,10 +338,8 @@ public class HomeFragment extends Fragment implements CarouselAdapter.OnClickLis
     }
 
 
-
-
     private void findMovieTypeById(int movieId) {
-        movieId1=movieId;
+        movieId1 = movieId;
         FormBody body = new FormBody.Builder().add("movieId", String.valueOf(movieId)).build();
         Request request = new Request.Builder()
                 .url(Constant.INDEX_URL + "findMovieTypeById")
@@ -278,7 +356,7 @@ public class HomeFragment extends Fragment implements CarouselAdapter.OnClickLis
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 strMovieType = response.body().string();
-                strMovieType=strMovieType.substring(1,strMovieType.length()-1);
+                strMovieType = strMovieType.substring(1, strMovieType.length() - 1);
                 Message msg = new Message();
                 msg.what = 3;
                 mainHandle.sendMessage(msg);
@@ -291,5 +369,67 @@ public class HomeFragment extends Fragment implements CarouselAdapter.OnClickLis
     public int sendMovieId(int movieId) {
         findMovieTypeById(movieId);
         return 0;
+    }
+
+    public void guessLike() {
+        FormBody body = new FormBody.Builder().add("userId", String.valueOf(Constant.USER_STATUS.getUserId())).build();
+        Request request = new Request.Builder()
+                .url(Constant.INDEX_URL + "guessLike")
+                .post(body)
+                .build();
+        final Call call = okHttpClient.newCall(request);
+
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+//                strMovieType = response.body().string();
+//                strMovieType = strMovieType.substring(1, strMovieType.length() - 1);
+                strGuessLike = response.body().string();
+                Log.e("kkkk", strGuessLike);
+                Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+
+                guessList = gson.fromJson(strGuessLike, new TypeToken<List<Movie>>() {
+                }.getType());
+                Message msg = new Message();
+                msg.what = 4;
+                mainHandle.sendMessage(msg);
+            }
+        });
+    }
+
+    private void recommendMovie(){
+        FormBody body = new FormBody.Builder().add("pageNumber", String.valueOf(pageNumber)).build();
+        Request request = new Request.Builder()
+                .url(Constant.INDEX_URL + "recommendMovie")
+                .post(body)
+                .build();
+        final Call call = okHttpClient.newCall(request);
+
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+//                strMovieType = response.body().string();
+//                strMovieType = strMovieType.substring(1, strMovieType.length() - 1);
+                strGuessLike = response.body().string();
+                Log.e("kkkk", strGuessLike);
+                Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+
+                guessList = gson.fromJson(strGuessLike, new TypeToken<List<Movie>>() {
+                }.getType());
+                Message msg = new Message();
+                msg.what = 5;
+                mainHandle.sendMessage(msg);
+            }
+        });
     }
 }

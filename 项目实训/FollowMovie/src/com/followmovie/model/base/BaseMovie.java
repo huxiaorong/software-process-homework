@@ -79,5 +79,20 @@ public abstract class BaseMovie<M extends BaseMovie<M>> extends Model<M> impleme
 	public java.lang.String getEnName() {
 		return getStr("enName");
 	}
-
+	public M setVideo(java.lang.String video) {
+		set("video", video);
+		return (M)this;
+	}
+	
+	public java.lang.String getVideo() {
+		return getStr("video");
+	}
+	
+	public java.util.Date getUploadYear() {
+		return getDate("uploadYear");
+	}
+	public M setUploadYear(java.util.Date uploadYear) {
+		set("uploadYear",uploadYear);
+		return (M)this;
+	}
 }

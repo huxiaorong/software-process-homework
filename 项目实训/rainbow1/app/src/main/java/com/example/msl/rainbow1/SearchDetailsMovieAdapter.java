@@ -8,6 +8,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,7 +62,17 @@ public class SearchDetailsMovieAdapter extends BaseAdapter {
         }
         viewHolder.tvMovieName.setText(movieList.get(position).getName());
         viewHolder.tvMovieBrief.setText(movieList.get(position).getDescription());
-        //viewHolder.imgMoviePicture.setImageResource(movieList.get(position).getImg());
+
+        RequestOptions options = new RequestOptions()
+                .placeholder(R.drawable.loading)//请求过程中显示
+                .error(R.drawable.error)//请求失败显示
+                .fallback(R.drawable.defaultimg);//请求的URL为null时显示
+        Glide.with(context)
+                .load(Constant.BASE_IP+"movie/"+movieList.get(position).getImg())
+                .apply(options)
+                .into(viewHolder.imgMoviePicture);
+
+//        viewHolder.imgMoviePicture.setImageResource(movieList.get(position).getImg());
         return convertView;
     }
 

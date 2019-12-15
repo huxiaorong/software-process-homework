@@ -74,7 +74,7 @@
         </ListView>
 
         <Button
-            android:id="@+id/btn_more"
+            android:id="@+id/btn_more_movie"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_marginTop="10dp"
@@ -117,6 +117,17 @@
             android:layout_height="wrap_content">
 
         </ListView>
+        <Button
+            android:id="@+id/btn_more_place"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/button_edge"
+            android:onClick="onClicked"
+            android:text="more"
+            android:textAllCaps="false"
+            android:textColor="#101010"
+            android:textSize="15sp" />
 
     </LinearLayout>
 </ScrollView>
