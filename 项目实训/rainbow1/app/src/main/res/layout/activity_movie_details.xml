@@ -6,7 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:srlEnableFooterFollowWhenLoadFinished="true"
-    app:srlEnableScrollContentWhenLoaded="true">
+    app:srlEnableScrollContentWhenLoaded="true"
+    android:fitsSystemWindows="true"
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
     <com.scwang.smartrefresh.layout.header.ClassicsHeader
         android:layout_width="match_parent"

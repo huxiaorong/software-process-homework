@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -73,7 +74,8 @@ public class EditActivity extends AppCompatActivity {
     private TextView tvDate;
     private Calendar calendar = Calendar.getInstance(Locale.CHINA);
     private ImageView ivAvatar;
-    private String rsp;
+    private String rsp1;
+    private String rsp2;
     private ImageView ivLeft;
     private Button btnSave;
     private RadioButton btnMan;
@@ -81,7 +83,6 @@ public class EditActivity extends AppCompatActivity {
     private LinearLayout llChange;
     private String imgPath;
 
-    private ImageView img;
 
     private View popBtn;
 
@@ -97,13 +98,8 @@ public class EditActivity extends AppCompatActivity {
     private static final int ALBUM_REQUEST_CODE = 1;
     //相机请求码
     private static final int CAMERA_REQUEST_CODE = 2;
-    //剪裁请求码
-    private static final int CROP_SMALL_PICTURE = 3;
+    private SharedPreferences sharedPreferences;
 
-    //调用照相机返回图片文件
-    private File tempFile;
-    //最后显示的图片文件
-    private String mFile;
 
 
     private Handler mainHandle = new Handler() {
@@ -111,12 +107,18 @@ public class EditActivity extends AppCompatActivity {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 1:
-                    if (rsp.equals("修改成功")) {
+                    if (rsp1.equals("修改成功")) {
                         Toast.makeText(EditActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
                     }
                     break;
                 case 2:
-                    Constant.USER_STATUS.setHeadPicture(rsp);
+                    Constant.USER_STATUS.setHeadPicture(rsp2);
+                    if(sharedPreferences.getString("user","")!=null){
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+                        editor.putString("user",gson.toJson(Constant.USER_STATUS));
+                        editor.commit();
+                    }
                     break;
 
             }
@@ -129,6 +131,8 @@ public class EditActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
 
+        sharedPreferences = getSharedPreferences("loginInfo",MODE_PRIVATE);
+
         popBtn = getLayoutInflater().inflate(R.layout.pop_btn, null);
         popupWindow = new PopupWindow(popBtn, ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -137,6 +141,7 @@ public class EditActivity extends AppCompatActivity {
         pop_img = (Button) popBtn.findViewById(R.id.pop_img);
         pop_file = (Button) popBtn.findViewById(R.id.pop_file);
         pop_cancle = (Button) popBtn.findViewById(R.id.pop_cancel);
+
 
 
         findViews();
@@ -218,6 +223,7 @@ public class EditActivity extends AppCompatActivity {
                     break;
                 case R.id.ll_change:
                     //第一个参数是要将PopupWindow放到的View，第二个参数是位置，第三第四是偏移值
+                    popupWindow.setOutsideTouchable(true);
                     popupWindow.showAtLocation(popBtn, Gravity.BOTTOM, 0, 0);
 
 
@@ -244,6 +250,7 @@ public class EditActivity extends AppCompatActivity {
                             popupWindow.dismiss();
                         }
                     });
+
                     break;
             }
         }
@@ -339,7 +346,7 @@ public class EditActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                rsp = response.body().string();
+                rsp2 = response.body().string();
                 Message msg = new Message();
                 msg.what = 2;
                 mainHandle.sendMessage(msg);
@@ -452,8 +459,8 @@ public class EditActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                rsp = response.body().string();
-                Log.e("rsp", rsp);
+                rsp1 = response.body().string();
+                Log.e("rsp", rsp1);
                 Message msg = new Message();
                 msg.what = 1;
                 mainHandle.sendMessage(msg);

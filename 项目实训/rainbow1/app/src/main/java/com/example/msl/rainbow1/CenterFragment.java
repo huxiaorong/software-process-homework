@@ -57,12 +57,14 @@ public class CenterFragment extends Fragment {
                     tvCollection.setText(count.getCollectionCount()+"");
                     tvNotes.setText(count.getDynamicCount()+"");
                     tvPraise.setText(count.getPraiseCount()+"");
-                    RequestOptions options = new RequestOptions().circleCrop();
-                    Glide.with(getContext())
-                            .load(Constant.BASE_URL+"headPicture/"+Constant.USER_STATUS.getHeadPicture())
-                            .apply(options)
-                            .into(ivHeader);
 
+                    if (Constant.USER_STATUS.getHeadPicture() != null) {
+                        RequestOptions options = new RequestOptions().circleCrop();
+                        Glide.with(getContext())
+                                .load(Constant.BASE_URL + "headPicture/" + Constant.USER_STATUS.getHeadPicture())
+                                .apply(options)
+                                .into(ivHeader);
+                    }
                     break;
 
             }
@@ -82,6 +84,15 @@ public class CenterFragment extends Fragment {
         transaction.replace(R.id.frame, new CollectionFragment());
         transaction.commit();
 
+
+        if (Constant.USER_STATUS.getHeadPicture() != null) {
+            RequestOptions options = new RequestOptions().circleCrop();
+            Glide.with(getContext())
+                    .load(Constant.BASE_URL + "headPicture/" + Constant.USER_STATUS.getHeadPicture())
+                    .apply(options)
+                    .into(ivHeader);
+        }
+
         return view;
     }
 
@@ -93,14 +104,6 @@ public class CenterFragment extends Fragment {
 
     }
 
-    /**
-     * 获取用户头像
-     */
-    private void getHeadPicture() {
-        Log.e("path",Constant.BASE_URL+"headPicture/"+Constant.USER_STATUS.getHeadPicture());
-
-
-    }
 
     private void findViews(View view){
         tvPraiseFragment = view.findViewById(R.id.tv_praise_fragment);

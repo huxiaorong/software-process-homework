@@ -13,6 +13,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -46,6 +48,16 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         sharedPreferences = getSharedPreferences("loginInfo",MODE_PRIVATE);
         setContentView(R.layout.activity_main);
+
+
+        if (Build.VERSION.SDK_INT >= 21) {
+            getWindow().setFlags(
+                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
+
+
+
         findViews();
         //绑定监听器
         bindListener();

@@ -7,9 +7,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.followmovie.entity.Movie;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.jfinal.core.Controller;
 import com.jfinal.core.JFinal;
 import com.jfinal.plugin.activerecord.Db;
@@ -167,4 +172,47 @@ public class CenterController extends Controller {
 		Db.update("user", user1);
 		renderJson(fileName);
 	}
+	
+	public String findMovieTypeById(int movieId){
+		List<String> strTypeName=new ArrayList<String>();
+		
+		StringBuffer stringBuffer=new StringBuffer();
+		List<Record> movieTypeIds=Db.find("select movieTypeId from movietypecomparison where movieId="+movieId);
+		for(int j=0;j<movieTypeIds.size();j++){
+			String typeNames=Db.queryStr("select name from movietype where movieTypeId="+movieTypeIds.get(j).getInt("movieTypeId"));
+			stringBuffer.append(typeNames+"/");				
+		}
+		String string=stringBuffer.toString();
+		string = string.substring(0,string.length()-1);
+		strTypeName.add(string.toString());
+	
+		String type=strTypeName.toString().substring(1,strTypeName.toString().length()-1);
+		return type;	
+	}
+
+	
+	public void findMovieType(){
+		String movies=get("strMovies");
+		List<Movie> mList=new ArrayList<>();
+		List<String> types=new ArrayList<>();
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+
+        mList = gson.fromJson(movies, new TypeToken<List<Movie>>() {
+         }.getType());
+         
+         for(int i=0;i<mList.size();i++){
+        	 String string=findMovieTypeById(mList.get(i).getMovieId());
+        	 types.add(string);
+         }
+         System.out.println("==="+types);
+         renderJson(types);
+	}
+
+	public void getCollection(){
+		int userId = Integer.parseInt(getPara("userId"));
+		List<Record> movies = Db.find("select movie.* from moviecollection,movie where userId = "+userId+"&& movie.movieId = moviecollection.movieId");
+		System.out.println(movies);
+		renderJson(movies);
+	}
+	
 }

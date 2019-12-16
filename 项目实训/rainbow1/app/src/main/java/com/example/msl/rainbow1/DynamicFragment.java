@@ -100,15 +100,15 @@ public class DynamicFragment extends Fragment {
         try {
             list = getDynamicData();
             map = getPictures();
-            Log.e("aaaa",list.get(1).toString());
-            Log.e("bbbb",map.toString());
+            //Log.e("aaaa",list.get(1).toString());
+            //Log.e("bbbb",map.toString());
             for (int i = 0;i<list.size();i++){
                 if (map.containsKey(list.get(i).getDynamicId())){
                     map.get(list.get(i).getDynamicId()).removeAll(Collections.singleton(null));
                     list.get(i).setImgData(map.get(list.get(i).getDynamicId()));
                 }
             }
-            Log.e("cccc",list.get(1).getImgData()+"");
+            //Log.e("cccc",list.get(1).getImgData()+"");
             dynamicAdapter = new DynamicAdapter(list,DynamicFragment.this,R.layout.item_dynamic);
             listView.setAdapter(dynamicAdapter);
         } catch (IOException e) {
@@ -155,7 +155,7 @@ public class DynamicFragment extends Fragment {
         List<Integer> likeList = new ArrayList<>();
         Gson gson = new Gson();
         likeList = gson.fromJson(jsonLike, new TypeToken<List<Integer>>(){}.getType());
-        Log.e("1111",likeList.toString());
+        //Log.e("1111",likeList.toString());
 
         Request requestBlog = new Request.Builder()
                 .url(Constant.SHOW_URL)

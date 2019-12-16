@@ -1,4 +1,4 @@
-package com.example.msl.rainbow1;
+package com.followmovie.entity;
 import java.util.Date;
 
 public class Movie {
