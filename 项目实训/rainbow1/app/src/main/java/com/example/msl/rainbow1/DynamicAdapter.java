@@ -31,6 +31,7 @@ import com.zhuang.likeviewlibrary.LikeView;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -43,7 +44,7 @@ import okhttp3.Response;
 
 public class DynamicAdapter extends BaseAdapter {
 
-    private List<Dynamic> dataSource = null;
+    private List<Dynamic> dataSource = new ArrayList<>();
     private DynamicFragment context = null;
     private int item_layout_id;
     private SharePopwindow sharePopwindow;
@@ -188,10 +189,13 @@ public class DynamicAdapter extends BaseAdapter {
             }
         });
 
-        List<String> picData = dataSource.get(position).getImgData();
-        //Log.e("ddddd",dataSource.get(1).getImgData()+"");
-        //Log.e("11111",picData.toString());
-        InsideGridAdapter insideGridAdapter = new InsideGridAdapter(dataSource.get(position).getImgData(),context.getContext(),R.layout.item_inside_grid);
+        List<String> picData = new ArrayList<>();
+        Log.e("position",position+"");
+        Log.e("ddddd",dataSource.get(0).getImgData()+"");
+        picData.addAll(dataSource.get(position).getImgData());
+
+        Log.e("11111",picData.toString());
+        InsideGridAdapter insideGridAdapter = new InsideGridAdapter(picData,context.getContext(),R.layout.item_inside_grid);
         gridView.setAdapter(insideGridAdapter);
 
         return convertView;

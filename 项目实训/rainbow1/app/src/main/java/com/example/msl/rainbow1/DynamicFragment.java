@@ -100,7 +100,7 @@ public class DynamicFragment extends Fragment {
         try {
             list = getDynamicData();
             map = getPictures();
-            Log.e("aaaa",list.toString());
+            Log.e("aaaa",list.get(1).toString());
             Log.e("bbbb",map.toString());
             for (int i = 0;i<list.size();i++){
                 if (map.containsKey(list.get(i).getDynamicId())){

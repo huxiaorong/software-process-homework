@@ -43,17 +43,11 @@
         android:layout_marginTop="20dp"
         android:text="热门搜索"
         android:textSize="20sp" />
-
-    <TextView
-        android:id="@+id/tv_popular_searches"
-        android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:background="#D4E3EE"
-        android:gravity="center"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:text="初恋这点小事"
-        android:textSize="20sp" />
+    <!--控件-->
+    <com.example.library.AutoFlowLayout
+        android:id="@+id/fl_hot"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <RelativeLayout
         android:layout_marginTop="30dp"
@@ -81,7 +75,7 @@
     </RelativeLayout>
     <!--控件-->
     <com.example.library.AutoFlowLayout
-        android:id="@+id/flowLayout"
+        android:id="@+id/fl_history"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 </LinearLayout>

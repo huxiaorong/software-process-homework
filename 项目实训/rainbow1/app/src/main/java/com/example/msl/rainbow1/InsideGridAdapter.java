@@ -11,11 +11,12 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class InsideGridAdapter extends BaseAdapter {
 
-    private List<String> dataSource = null;
+    private List<String> dataSource = new ArrayList<>();
     private Context context = null;
     private int item_layout_id;
 

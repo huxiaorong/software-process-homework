@@ -83,4 +83,18 @@ public class Dynamic {
     public void setImgData(List<String> imgData) {
         this.imgData = imgData;
     }
+
+    @Override
+    public String toString() {
+        return "Dynamic{" +
+                "hasLike=" + hasLike +
+                ", likeCount=" + likeCount +
+                ", dynamicId=" + dynamicId +
+                ", blog='" + blog + '\'' +
+                ", userId=" + userId +
+                ", username='" + username + '\'' +
+                ", headimg='" + headimg + '\'' +
+                ", imgData=" + imgData +
+                '}';
+    }
 }

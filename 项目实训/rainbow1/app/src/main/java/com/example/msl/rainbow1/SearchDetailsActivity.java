@@ -1,11 +1,14 @@
 package com.example.msl.rainbow1;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -15,20 +18,25 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-public class SearchDetailsActivity extends AppCompatActivity {
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
+public class SearchDetailsActivity extends AppCompatActivity {
+    private OkHttpClient okHttpClient;
+    private ArrayList<String> list;
     private ListView movieListView;
     private ListView placeListView;
-    private TextView tvMovieName;
-    private TextView tvMovieEngName;
-    private TextView tvMoviePlace;
-    private TextView tvMovieBrief;
-    private ImageView imgMoviePicture;
     private SearchDetailsMovieAdapter movieAdapter;
     private SearchDetailPlaceAdapter placeAdapter;
     private List<Movie> movieList = new ArrayList<>();
@@ -38,60 +46,91 @@ public class SearchDetailsActivity extends AppCompatActivity {
     private Intent intent;
     private SearchView searchView;
     private TextView tvCancel;
-    private String query;
-    private String movies;
-    private String places;
-
-//    private List<Movie> reMovies;
-//    private List<Place> rePlaces;
-
+    private String reQuery;
+    private Gson gson;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_details);
-
-
-        //接收查询内容并显示
-        Intent reIntent = getIntent();
-        query = reIntent.getStringExtra("query");
-        movies = reIntent.getStringExtra("movies");
-        places = reIntent.getStringExtra("places");
-//        Log.e("query", query);
-//        Log.e("movies", movies);
-//        Log.e("places", places);
-        Gson gson = new GsonBuilder()
+        okHttpClient = new OkHttpClient();
+        sharedPreferences = getSharedPreferences("search",
+                MODE_PRIVATE);
+        findView();
+        gson = new GsonBuilder()
                 .setDateFormat("yyyy-MM-dd HH:mm:ss")
                 .create();
-        Type listType = new TypeToken<List<Movie>>() {
-        }.getType();
-        movieList = gson.fromJson(movies, listType);
-//        Log.e("reMovies", movieList.toString());
-        placeList = gson.fromJson(places, new TypeToken<List<Place>>() {
-        }.getType());
-
-
-
-
-        //填充adapter
-        findView();
-        init();
+        if (sharedPreferences.getString("searchHistory", "").equals("")) {
+            list = new ArrayList<>();
+        }else{
+            list = gson.fromJson(sharedPreferences.getString("searchHistory", ""), new TypeToken<ArrayList<String>>() {
+            }.getType());
+        }
+        //接收查询内容并显示
+        Intent reIntent = getIntent();
+        reQuery = reIntent.getStringExtra("query");
+        searchView.setQuery(reQuery, false);
+        getAsync4Save(reQuery);
+        getAsync4Movie();
         tvCancel.setOnClickListener(new View.OnClickListener() {
             //监听取消按钮点击事件
             @Override
             public void onClick(View v) {
                 //返回上一界面
+                Intent intent = new Intent();
+                setResult(1, intent);
+                //关闭当前界面
                 SearchDetailsActivity.this.finish();
+            }
+        });
+        movieListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                intent = new Intent(SearchDetailsActivity.this,MovieDetailsActivity.class);
+                intent.putExtra("movieId",movieList.get(position).getMovieId());
+                getAsync4MovieTypes(movieList.get(position).getMovieId());
+            }
+        });
+        placeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                intent = new Intent(SearchDetailsActivity.this,PlaceDetailsActivity.class);
+                intent.putExtra("place",gson.toJson(placeList.get(position)));
+                startActivity(intent);
             }
         });
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             // 当点击搜索按钮时触发该方法
             @Override
             public boolean onQueryTextSubmit(String query) {
-                //跳转到搜索页
-                Intent intent = new Intent(SearchDetailsActivity.this, SearchActivity.class);
-                intent.putExtra("reQuery", query);
-                startActivity(intent);
+                if (!list.contains(query)&&list.size()<10){
+                    Collections.reverse(list);
+                    list.add(query);
+                    Collections.reverse(list);
+                }else if(!list.contains(query)){
+                    Collections.reverse(list);
+                    list.add(query);
+                    Collections.reverse(list);
+                    list.remove(list.size()-1);
+                }else{
+                    for (int i=0;i<list.size();i++){
+                        if (list.get(i).equals(query)){
+                            String curStr = list.get(i);
+                            for (int j=i;j>0;j--){
+                                list.set(j,list.get(j-1));
+                            }
+                            list.set(0,curStr);
+                            break;
+                        }
+                    }
+                }
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("searchHistory", gson.toJson(list));
+                editor.commit();
+                getAsync4Save(query);
+                reQuery = query;
+                getAsync4Movie();
                 return false;
             }
 
@@ -106,20 +145,8 @@ public class SearchDetailsActivity extends AppCompatActivity {
     }
 
     private void init() {
-        Date date = new Date();
-//        Movie movie = new Movie(1, "急速备战", "John Wick:Chapter3", date, R.drawable.update, "摩洛哥 纽约", 18, "2019/美国/动作/犯罪/惊悚");
-//        Movie movie1 = new Movie(1, "急速备战", "John Wick:Chapter3", date, R.drawable.update, "摩洛哥 纽约", 18, "2019/美国/动作/犯罪/惊悚");
-//        Movie movie2 = new Movie(1, "急速备战", "John Wick:Chapter3", date, R.drawable.update, "摩洛哥 纽约", 18, "2019/美国/动作/犯罪/惊悚");
-//        Movie movie3 = new Movie(1, "急速备战", "John Wick:Chapter3", date, R.drawable.update, "摩洛哥 纽约", 18, "2019/美国/动作/犯罪/惊悚");
-//        movieList.add(movie);
-//        movieList.add(movie1);
-//        movieList.add(movie2);
-//        movieList.add(movie3);
-//        if (movieList.size() > 2) {
-//            movieList1.add(movieList.get(0));
-//            movieList1.add(movieList.get(1));
-//        }
-
+        movieList1 = new ArrayList<>();
+        placeList1 = new ArrayList<>();
         if (null != movieList && movieList.size() >= 2) {
             movieList1.add(movieList.get(0));
             movieList1.add(movieList.get(1));
@@ -127,46 +154,25 @@ public class SearchDetailsActivity extends AppCompatActivity {
             movieList1.add(movieList.get(0));
         }
 
-//        Place place = new Place(1, "二厂文创公园", "Testbed2", R.drawable.place, "中国 重庆市", "重庆市", "重庆市", "FILMED 从你的全世界路过");
-//        Place place1 = new Place(1, "二厂文创公园", "Testbed2", R.drawable.place, "中国 重庆市", "重庆市", "重庆市", "FILMED 从你的全世界路过");
-//        Place place2 = new Place(1, "二厂文创公园", "Testbed2", R.drawable.place, "中国 重庆市", "重庆市", "重庆市", "FILMED 从你的全世界路过");
-//        Place place3 = new Place(1, "二厂文创公园", "Testbed2", R.drawable.place, "中国 重庆市", "重庆市", "重庆市", "FILMED 从你的全世界路过");
-//        Place place4 = new Place(1, "二厂文创公园", "Testbed2", R.drawable.place, "中国 重庆市", "重庆市", "重庆市", "FILMED 从你的全世界路过");
-//        Place place5 = new Place(1, "二厂文创公园", "Testbed2", R.drawable.place, "中国 重庆市", "重庆市", "重庆市", "FILMED 从你的全世界路过");
-//        Place place6 = new Place(1, "二厂文创公园", "Testbed2", R.drawable.place, "中国 重庆市", "重庆市", "重庆市", "FILMED 从你的全世界路过");
-//        Place place7 = new Place(1, "二厂文创公园", "Testbed2", R.drawable.place, "中国 重庆市", "重庆市", "重庆市", "FILMED 从你的全世界路过");
-//
-//        placeList.add(place);
-//        placeList.add(place1);
-//        placeList.add(place2);
-//        placeList.add(place3);
-//        placeList.add(place4);
-//        placeList.add(place5);
-//        placeList.add(place6);
-//        placeList.add(place7);
         if (null != placeList && placeList.size() >= 2) {
             placeList1.add(placeList.get(0));
             placeList1.add(placeList.get(1));
         } else if (null != placeList && placeList.size() == 1) {
             placeList1.add(placeList.get(0));
         }
-
+        movieAdapter = new SearchDetailsMovieAdapter(movieList1, R.layout.item_search_details, this);
+        placeAdapter = new SearchDetailPlaceAdapter(placeList1, R.layout.item_seach_place, this);
+        movieListView.setAdapter(movieAdapter);
+        placeListView.setAdapter(placeAdapter);
         placeAdapter.notifyDataSetChanged();
         setListViewHeightBasedOnChildren(placeListView);
         movieAdapter.notifyDataSetChanged();
         setListViewHeightBasedOnChildren1(movieListView);
-        searchView.setQuery(query, true);
     }
 
     private void findView() {
         movieListView = findViewById(R.id.lv_item_search_movie);
         placeListView = findViewById(R.id.lv_item_search_place);
-        movieAdapter = new SearchDetailsMovieAdapter(movieList1, R.layout.item_search_details, this);
-        placeAdapter = new SearchDetailPlaceAdapter(placeList1, R.layout.item_seach_place, this);
-
-        movieListView.setAdapter(movieAdapter);
-        placeListView.setAdapter(placeAdapter);
-
         searchView = findViewById(R.id.search_content);
         tvCancel = findViewById(R.id.tv_cancle);
     }
@@ -176,17 +182,143 @@ public class SearchDetailsActivity extends AppCompatActivity {
             case R.id.btn_more_movie:
                 intent = new Intent(this, SearchMoreMovieActivity.class);
 //                Log.e("传参reMovieStr",reMovieStr);
-                intent.putExtra("movies", movies);
+                intent.putExtra("movies", gson.toJson(movieList));
                 startActivity(intent);
                 break;
             case R.id.btn_more_place:
                 intent = new Intent(this, SearchMorePlaceActivity.class);
 //                Log.e("传参rePlaceStr",rePlaceStr);
-                intent.putExtra("places", places);
+                intent.putExtra("places", gson.toJson(placeList));
                 startActivity(intent);
                 break;
 
         }
+    }
+
+    private void getAsync4Movie() {
+        Log.e("request", "start");
+        //2.创建Request对象
+        Request request = new Request.Builder()
+                .url(Constant.BASE_URL + "search/searchMovie?text=" + reQuery)//设置网络请求的URL地址
+                .build();
+        //3.创建Call对象
+        Call call = okHttpClient.newCall(request);
+        //4.发送请求
+        //异步请求，不需要创建线程
+        call.enqueue(new Callback() {
+            @Override
+            //请求失败时回调
+            public void onFailure(Call call, IOException e) {
+                Log.e("requestMovie", "error");
+                e.printStackTrace();//打印异常信息
+            }
+
+            @Override
+            //请求成功之后回调
+            public void onResponse(Call call, Response response) throws IOException {
+
+                String reStr = response.body().string();
+                Log.e("异步GET请求结果", reStr);
+                if (reStr.equals("{}")){
+                    movieList=new ArrayList<>();
+                }else {
+                    movieList = gson.fromJson(reStr, new TypeToken<List<Movie>>() {
+                    }.getType());
+                }
+
+                getAsync4Place();
+            }
+        });
+    }
+
+    private void getAsync4Place() {
+        Log.e("request", "start");
+        //2.创建Request对象
+        Request request = new Request.Builder()
+                .url(Constant.BASE_URL + "search/searchPlace?text=" + reQuery)//设置网络请求的URL地址
+                .build();
+        //3.创建Call对象
+        Call call = okHttpClient.newCall(request);
+        //4.发送请求
+        //异步请求，不需要创建线程
+        call.enqueue(new Callback() {
+            @Override
+            //请求失败时回调
+            public void onFailure(Call call, IOException e) {
+                Log.e("requestPlace", "error");
+                e.printStackTrace();//打印异常信息
+            }
+
+            @Override
+            //请求成功之后回调
+            public void onResponse(Call call, Response response) throws IOException {
+
+                String reStr = response.body().string();
+                Log.e("异步GET请求结果", reStr);
+
+//                intent.putExtra("places", reStr);
+                if (reStr.equals("{}")){
+                    placeList = new ArrayList<>();
+                }else {
+                    placeList = gson.fromJson(reStr, new TypeToken<List<Place>>() {
+                    }.getType());
+                }
+
+
+                SearchDetailsActivity.this.runOnUiThread(new Runnable() {
+                    public void run() {
+                        init();
+                    }
+                });
+
+            }
+        });
+    }
+
+    /*
+    请求首个电影类型
+    */
+    private void getAsync4MovieTypes(int id) {
+        Log.e("request", "start");
+        //2.创建Request对象
+        Request request = new Request.Builder()
+                .url(Constant.BASE_URL + "movieTheme/searchTypeByMovieId?movieId="+id)//设置网络请求的URL地址
+                .build();
+        //3.创建Call对象
+        Call call = okHttpClient.newCall(request);
+        //4.发送请求
+        //异步请求，不需要创建线程
+        call.enqueue(new Callback() {
+            @Override
+            //请求失败时回调
+            public void onFailure(Call call, IOException e) {
+                Log.e("failure", "error");
+                e.printStackTrace();//打印异常信息
+            }
+
+            @Override
+            //请求成功之后回调
+            public void onResponse(Call call, Response response) throws IOException {
+
+                final String reStr = response.body().string();
+                Log.e("异步GET请求结果", reStr);
+                SearchDetailsActivity.this.runOnUiThread(new Runnable() {
+                    public void run() {
+                        String[] types = gson.fromJson(reStr, String[].class);
+                        intent.putExtra("type",TypeToString(types));
+                        startActivity(intent);
+                    }
+                });
+            }
+        });
+    }
+    private String TypeToString(String[] types){
+        String str = "";
+        for (int i = 0;i<types.length-1;i++){
+            str = str+types[i]+"/";
+        }
+        str=str+types[types.length-1];
+        return str;
     }
 
     //根据当前的ListView的列表项计算列表的尺寸,
@@ -260,6 +392,37 @@ public class SearchDetailsActivity extends AppCompatActivity {
         }
         return false;
 
+    }
+
+    private void getAsync4Save(String str) {
+        Log.e("request", "start");
+        //2.创建Request对象
+        Request request = new Request.Builder()
+                .url(Constant.BASE_URL + "search/insertSearchHistory?query=" + str)//设置网络请求的URL地址
+                .build();
+        //3.创建Call对象
+        Call call = okHttpClient.newCall(request);
+        //4.发送请求
+        //异步请求，不需要创建线程
+        call.enqueue(new Callback() {
+            @Override
+            //请求失败时回调
+            public void onFailure(Call call, IOException e) {
+                Log.e("requestPlace", "error");
+                e.printStackTrace();//打印异常信息
+            }
+
+            @Override
+            //请求成功之后回调
+            public void onResponse(Call call, Response response) throws IOException {
+
+                String reStr = response.body().string();
+
+                Log.e("异步GET请求结果", reStr);
+
+
+            }
+        });
     }
 
 

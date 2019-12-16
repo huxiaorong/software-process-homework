@@ -43,8 +43,10 @@ public class SearchController extends Controller {
 				renderJson(list1);
 			}
 			
+		}else {
+			renderJson(list1);
 		}
-		renderJson();
+		
 		
 		
 		
@@ -52,7 +54,7 @@ public class SearchController extends Controller {
 	public void searchPlace(){
 		String query = getPara("text");
 		List<Place> list1 = Place.dao.find("select * from place where name like ? or country like ? or province like ? or city like ?", "%"+query+"%","%"+query+"%","%"+query+"%","%"+query+"%");
-		
+		System.out.println("list1:"+list1);
 		List<Movie> list = Movie.dao.find("select * from movie where name like ?", "%"+query+"%");
 		List<String> movieIdList = new ArrayList<>();
 		for(int i = 0;i<list.size();i++){
@@ -77,8 +79,10 @@ public class SearchController extends Controller {
 				
 				renderJson(list1);
 			}
+		}else {
+			renderJson(list1);
 		}
-		renderJson();
+		
 	}
 	//插入历史纪录
 	public void insertSearchHistory(){
