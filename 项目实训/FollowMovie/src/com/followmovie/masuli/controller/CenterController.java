@@ -147,7 +147,8 @@ public class CenterController extends Controller {
 	}
 	
 	public void qqLogin(){
-		String qqId = get("id");
+		String qqId = get("qqId");
+		System.out.println(qqId);
 		String username = get("username");
 		Record user = Db.findFirst("select * from user where qqId = '"+ qqId +"'" );
 		if(user == null){
@@ -213,6 +214,27 @@ public class CenterController extends Controller {
 		List<Record> movies = Db.find("select movie.* from moviecollection,movie where userId = "+userId+"&& movie.movieId = moviecollection.movieId");
 		System.out.println(movies);
 		renderJson(movies);
+	}
+	
+	public void getPlace(){
+		int userId = Integer.parseInt(getPara("userId"));
+		List<Record> place = Db.find("select place.* from placecollection,place where userId = "+userId+"&& place.placeId = placecollection.placeId");
+		System.out.println(place);
+		renderJson(place);
+	}
+	
+	public void QQphone(){
+		int userId = Integer.parseInt(get("id"));
+		String phone = get("phone");
+		Record user1 = Db.findFirst("select * from user where tel = "+phone );
+		if(user1 == null){
+			Record user2 = Db.findById("user", userId).set("tel", phone);
+			Db.update("user", user2);
+			renderJson(user2);
+		}else{
+			renderJson("手机号已被注册");
+		}
+		
 	}
 	
 }

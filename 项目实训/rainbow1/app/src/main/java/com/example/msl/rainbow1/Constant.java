@@ -1,11 +1,9 @@
 package com.example.msl.rainbow1;
 
 
-import android.content.SharedPreferences;
 
 import java.util.List;
 
-import static android.content.Context.MODE_PRIVATE;
 
 public class Constant {
     public final static String INDEX_URL="http://192.168.137.1:8080/FollowMovie/index/";

@@ -3,10 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#fbfbfb"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:fitsSystemWindows="true"
-    app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+    android:background="#fbfbfb">
     <RelativeLayout
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"

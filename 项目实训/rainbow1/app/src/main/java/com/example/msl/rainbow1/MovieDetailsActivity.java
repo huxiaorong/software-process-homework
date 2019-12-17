@@ -298,7 +298,6 @@ public class MovieDetailsActivity extends AppCompatActivity{
         });
     }
 
-    ;
 
     //根据当前的ListView的列表项计算列表的尺寸,
     // 解决ScrollView嵌套ListView时，会无法正确的计算ListView的大小

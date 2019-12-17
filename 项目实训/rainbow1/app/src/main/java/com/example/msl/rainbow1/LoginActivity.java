@@ -56,6 +56,7 @@ public class LoginActivity extends AppCompatActivity {
     private String phone;
     private ImageView ivLeft;
     private SharedPreferences sharedPreferences;
+    private String QQphone;
 
     private Handler mainHandle = new Handler() {
         @Override
@@ -67,23 +68,53 @@ public class LoginActivity extends AppCompatActivity {
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
                         Constant.USER_STATUS = gson.fromJson(rsp,User.class);
-                        isAuto();
+                        Log.e("user",Constant.USER_STATUS.toString());
+                        //写入sharedpreferences
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("user",gson.toJson(Constant.USER_STATUS));
+                        editor.commit();
                         startActivity(intent);
                     }else{
                         Toast.makeText(LoginActivity.this, rsp, Toast.LENGTH_SHORT).show();
                     }
                     break;
                 case 2:
+                    if (!(rsp.equals("登录失败"))) {
+                        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+                        Constant.USER_STATUS = gson.fromJson(rsp,User.class);
+                        if (Constant.USER_STATUS.getTel()==null) {
+                            //注册手机号
+                            sendCode2(LoginActivity.this);
+                        }else{
+                            Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
+                            Constant.USER_STATUS = gson.fromJson(rsp,User.class);
+                            Log.e("user",Constant.USER_STATUS.toString());
+                            //写入sharedpreferences
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("user",gson.toJson(Constant.USER_STATUS));
+                            editor.commit();
+                        }
+                    }else{
+                        Toast.makeText(LoginActivity.this, rsp, Toast.LENGTH_SHORT).show();
+                    }
+                    break;
+                case 3:
                     Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
                     Constant.USER_STATUS = gson.fromJson(rsp,User.class);
-                    isAuto();
+                    Log.e("user",Constant.USER_STATUS.toString());
+                    //写入sharedpreferences
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("user",gson.toJson(Constant.USER_STATUS));
+                    editor.commit();
+                    Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                     startActivity(intent);
                     break;
             }
         }
     };
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -195,16 +226,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
-    private void isAuto(){
-        //判断并保存数据
-        if(etPhoneNum.length()>0 && etPwd.length()>0){
-            //创建Editor对象，实现写入的操作
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
-            editor.putString("user",gson.toJson(Constant.USER_STATUS));
-            editor.commit();
-        }
-    }
+
     public void sendCode(Context context) {
         RegisterPage page = new RegisterPage();
         //如果使用我们的ui，没有申请模板编号的情况下需传null
@@ -249,6 +271,36 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
         page.show(context);
+    }
+
+
+    private void QQphone() {
+        OkHttpClient okHttpClient = new OkHttpClient();
+        FormBody body = new FormBody.Builder()
+                .add("phone", QQphone)
+                .add("id",Constant.USER_STATUS.getUserId()+"")
+                .build();
+        Request request = new Request.Builder()
+                .post(body)
+                .url(Constant.BASE_URL + "center/QQphone")//设置网络请求的地址
+                .build();
+        Call call = okHttpClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                rsp = response.body().string();
+                Log.e("rsp", rsp);
+                Message msg = new Message();
+                msg.what = 3;
+                mainHandle.sendMessage(msg);
+
+            }
+        });
     }
 
     /**
@@ -347,5 +399,31 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+
+    /**
+     * 注册手机号
+     */
+    public void sendCode2(Context context) {
+        RegisterPage page = new RegisterPage();
+        //如果使用我们的ui，没有申请模板编号的情况下需传null
+        page.setTempCode(null);
+        page.setRegisterCallback(new EventHandler() {
+            public void afterEvent(int event, int result, Object data) {
+                if (result == SMSSDK.RESULT_COMPLETE) {
+                    // 处理成功的结果
+                    HashMap<String,Object> phoneMap = (HashMap<String, Object>) data;
+                    // 国家代码，如“86”
+                    String country = (String) phoneMap.get("country");
+                    // 手机号码，如“13800138000”
+                    QQphone = (String) phoneMap.get("phone");
+                    QQphone();
+                } else{
+
+                }
+            }
+        });
+        page.show(context);
     }
 }

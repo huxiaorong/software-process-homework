@@ -23,6 +23,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.ViewTarget;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.jaeger.library.StatusBarUtil;
 
 public class MainActivity extends AppCompatActivity{
     private LinearLayout llHome;
@@ -49,12 +50,9 @@ public class MainActivity extends AppCompatActivity{
         sharedPreferences = getSharedPreferences("loginInfo",MODE_PRIVATE);
         setContentView(R.layout.activity_main);
 
+        //设置状态栏半透明
+        StatusBarUtil.setTranslucent(MainActivity.this,55);
 
-        if (Build.VERSION.SDK_INT >= 21) {
-            getWindow().setFlags(
-                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
-                    WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        }
 
 
 
@@ -74,6 +72,7 @@ public class MainActivity extends AppCompatActivity{
 
         if(sharedPreferences.getString("user","")!=null){
             String userJson = sharedPreferences.getString("user","");
+            Log.e("userJson",userJson);
             Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
             Constant.USER_STATUS = gson.fromJson(userJson,User.class);
         }

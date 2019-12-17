@@ -4,10 +4,7 @@
     android:layout_height="match_parent"
     android:clipToPadding="false"
     android:overScrollMode="never"
-    android:scrollbars="none"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:fitsSystemWindows="true"
-    app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+    android:scrollbars="none">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"

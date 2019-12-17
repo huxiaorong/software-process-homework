@@ -2,7 +2,22 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.msl.rainbow1">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
+    <!-- 定位需要的权限 -->
+    <!-- 这个权限用于进行网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!-- 这个权限用于访问GPS定位 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- 获取运营商信息，用于支持提供运营商信息相关的接口 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- 用于读取手机当前的状态 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-feature android:name="android.hardware.camera" />
@@ -21,6 +36,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="s1LZNf2Rf9xBPssexRU1PNaK0eu7NS3G" />
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,8 +47,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
         <activity android:name=".MovieThemeActivity" />
         <activity android:name=".SettingsActivity" />
         <activity android:name=".AboutActivity" />
@@ -42,23 +59,25 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".NumLoginActivity" />
-        <activity android:name=".ForgetFindActivity"></activity>
+        <activity android:name=".ForgetFindActivity" />
         <activity android:name=".UpdateActivity" />
         <activity android:name=".PlaceDetailsActivity" />
         <activity android:name=".MovieDetailsActivity" />
         <activity android:name=".SearchActivity" />
         <activity android:name=".SearchDetailsActivity" />
-        <activity android:name=".SearchMoreActivity"></activity>
+        <activity android:name=".SearchMoreActivity" />
         <activity android:name=".CityDetailsActivity" />
         <activity android:name=".HotCityActivity" />
         <activity android:name=".PlaceThemeActivity" />
         <activity android:name=".HotSpotsActivity" />
         <activity android:name=".PlaceSurroundingActivity" />
-        <activity android:name=".SearchMoreMovieActivity"></activity>
-        <activity android:name=".SearchMorePlaceActivity"></activity>
-        <activity android:name=".DynamicDeatailsActivity"></activity>
-        <activity android:name=".PublishedActivity" android:theme="@style/popup_dialog_anim"
-            android:configChanges="keyboardHidden|orientation"></activity>
+        <activity android:name=".SearchMoreMovieActivity" />
+        <activity android:name=".SearchMorePlaceActivity" />
+        <activity android:name=".DynamicDeatailsActivity" />
+        <activity
+            android:name=".PublishedActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:theme="@style/popup_dialog_anim" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -67,10 +86,12 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/filepaths" /><!--//在res目录下定义的filepaths.xml文件，名字可以自定义-->
+                android:resource="@xml/filepaths" /> <!-- //在res目录下定义的filepaths.xml文件，名字可以自定义 -->
         </provider>
 
-    </application>
+        <activity android:name=".MapActivity">
 
+        </activity>
+    </application>
 
 </manifest>

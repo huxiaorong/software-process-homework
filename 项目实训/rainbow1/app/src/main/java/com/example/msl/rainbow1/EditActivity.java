@@ -306,7 +306,7 @@ public class EditActivity extends AppCompatActivity {
      */
     private void getPicFromCamera() {
         Intent cameraIntent = new Intent();
-        cameraIntent.setAction(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        cameraIntent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE);
     }
 
