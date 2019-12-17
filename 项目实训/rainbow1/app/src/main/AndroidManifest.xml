@@ -89,7 +89,8 @@
                 android:resource="@xml/filepaths" /> <!-- //在res目录下定义的filepaths.xml文件，名字可以自定义 -->
         </provider>
 
-        <activity android:name=".MapActivity">
+        <activity android:name=".MapActivity"></activity>
+        <activity android:name=".RouteDetailActivity">
 
         </activity>
     </application>

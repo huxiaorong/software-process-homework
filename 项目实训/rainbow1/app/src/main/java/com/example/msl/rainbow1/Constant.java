@@ -13,6 +13,8 @@ public class Constant {
     public static List<Movie> MOVIE_LIST=null;
     public static int PLACE_ID=0;
     public static final int USERID = 1;
+    public static final int POSITION = 0;
+    public static final int COUNT = 3;
     public static final String NEYDYNAMIC_URL="http://192.168.137.1:8080/FollowMovie/newdynamic/insertDynamic";
     public static final String NEYDYNAMICPICTURE_URL="http://192.168.137.1:8080/FollowMovie/newdynamic/insertDynamicPicture";
     public static final String SHOWPIC_URL="http://192.168.137.1:8080/FollowMovie/newdynamic/getAllPicture";
@@ -20,5 +22,5 @@ public class Constant {
     public static final String HEADIMAGE_URL="http://192.168.137.1:8080/FollowMovie/WebContent/dynamic/";
     public static final String PULSORMINUS_URL="http://192.168.137.1:8080/FollowMovie/newdynamic/plusOrMinus";
     public static final String GETLIKE_URL = "http://192.168.137.1:8080/FollowMovie/newdynamic/getAllLike";
-
+    public static final String DYNAMIC_URL="http://192.168.137.1:8080/FollowMovie/newdynamic/";
 }

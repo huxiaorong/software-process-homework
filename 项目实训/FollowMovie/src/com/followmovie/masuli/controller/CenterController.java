@@ -64,8 +64,8 @@ public class CenterController extends Controller {
 	public void getCount(){
 		int userId = Integer.parseInt(getPara("userId"));
 		
-		int dynamicCount = Db.queryInt("SELECT Count(dynamic.dynamicId) FROM dynamic WHERE dynamic.userId = " + userId);
-		int praiseCount = Db.queryInt("select count(id) from praise where userId = " + userId);
+		int dynamicCount = Db.queryInt("SELECT Count(dynamic.id) FROM dynamic WHERE dynamic.id= " + userId);
+		int praiseCount = Db.queryInt("select count(*) from praise where userId = " + userId);
 		int placeCount = Db.queryInt("SELECT count(id) FROM placecollection where userId =" + userId);
 		int movieCount = Db.queryInt("SELECT count(id) FROM moviecollection where userId =" + userId);
 		int collectionCount = placeCount + movieCount;

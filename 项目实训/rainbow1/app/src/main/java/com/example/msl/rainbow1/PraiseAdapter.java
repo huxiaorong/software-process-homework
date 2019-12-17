@@ -1,12 +1,10 @@
 package com.example.msl.rainbow1;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,18 +30,17 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class DynamicAdapter extends BaseAdapter {
+public class PraiseAdapter extends BaseAdapter {
 
     private List<Dynamic> dataSource = null;
-    private DynamicFragment context = null;
+    private PraiseFragment context = null;
     private int item_layout_id;
     private SharePopwindow sharePopwindow;
     private PopupWindow popupWindow;
     private Boolean isCollect = false;
-    private InsideGridAdapter insideGridAdapter;
 
 
-    public DynamicAdapter(List<Dynamic> dataSource, DynamicFragment context, int item_layout_id){
+    public PraiseAdapter(List<Dynamic> dataSource,PraiseFragment context,int item_layout_id){
         this.context = context;
         this.dataSource = dataSource;
         this.item_layout_id = item_layout_id;
@@ -125,23 +122,16 @@ public class DynamicAdapter extends BaseAdapter {
         likeView.setOnLikeListeners(new LikeView.OnLikeListeners() {
             @Override
             public void like(boolean isCancel) {
-                if (Constant.USER_STATUS!=null){
-                    dynamic.setHasLike(!isCancel);
-                    int id = dataSource.get(position).getDynamicId();
-                    if(isCancel){
-                        dynamic.delLikeCount();
-                        //连接数据库减已点赞数
-                        plusOrMinus("minus",id);
-                    }else{
-                        dynamic.addLikeCount();
-                        plusOrMinus("plus",id);
-                    }
-                }else {
-                    Intent intent = new Intent();
-                    //intent.setClass(context,LoginActivity.class);
-
+                dynamic.setHasLike(!isCancel);
+                int id = dataSource.get(position).getDynamicId();
+                if(isCancel){
+                    dynamic.delLikeCount();
+                    //连接数据库减已点赞数
+                    plusOrMinus("minus",id);
+                }else{
+                    dynamic.addLikeCount();
+                    plusOrMinus("plus",id);
                 }
-
             }
         });
 
@@ -188,8 +178,7 @@ public class DynamicAdapter extends BaseAdapter {
         });
 
         List<String> picData = dataSource.get(position).getImgData();
-        Log.e("11111",dataSource.get(position).getImgData()+"");
-        insideGridAdapter = new InsideGridAdapter(dataSource.get(position).getImgData(),context.getContext(),R.layout.item_inside_grid);
+        InsideGridAdapter insideGridAdapter = new InsideGridAdapter(dataSource.get(position).getImgData(),context.getContext(),R.layout.item_inside_grid);
         gridView.setAdapter(insideGridAdapter);
 
         return convertView;
@@ -245,8 +234,4 @@ public class DynamicAdapter extends BaseAdapter {
             }
         });
     }
-
-
-
-
 }

@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +22,8 @@ import com.followmovie.model.praise;
 import com.followmovie.utils.DBUtil;
 import com.jfinal.core.Controller;
 import com.jfinal.core.JFinal;
+import com.jfinal.plugin.activerecord.Db;
+import com.jfinal.plugin.activerecord.Record;
 import com.jfinal.upload.UploadFile;
 
 
@@ -163,6 +166,78 @@ public class NewDynamicController extends Controller{
 		}
 		renderJson();
 		
+	}
+	
+	public void getMyPraise(){
+		String uid = getPara("userId");
+		int di = Integer.parseInt(uid);
+		System.out.println(di);
+		Connection con=null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		List<Integer> dynamiclist = new ArrayList<>();
+		List<Dynamic> list = new ArrayList<>();
+		try {
+			con = DBUtil.getCon();
+			pstm = con.prepareStatement("select dynamicId from praise where userId = '"+di+"' ");
+			rs = pstm.executeQuery();
+			while(rs.next()){
+				dynamiclist.add(rs.getInt(1));
+			}
+			System.out.println(dynamiclist.toString());
+			String sql = "select * from dynamic where dynamicId = ?";
+			for(int i = 0;i<dynamiclist.size();i++){
+				pstm = con.prepareStatement(sql);
+				pstm.setInt(1, dynamiclist.get(i));
+				rs = pstm.executeQuery();
+				while(rs.next()){
+					Dynamic dynamic = new Dynamic();
+					dynamic.set("likeCount", rs.getInt("likeCount"));
+					dynamic.set("dynamicId", rs.getInt("dynamicId"));
+					dynamic.set("id", rs.getInt("id"));
+					dynamic.set("blog", rs.getString("blog"));
+					dynamic.set("userName", rs.getString("userName"));
+					dynamic.set("headPicture", rs.getString("headPicture"));
+					list.add(dynamic);
+				}
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		renderJson(list);
+	}
+	
+	public void getMyNotes(){
+		String uid = getPara("userId");
+		int di = Integer.parseInt(uid);
+		System.out.println(di);
+		Connection con=null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		List<Integer> dynamiclist = new ArrayList<>();
+		List<Dynamic> list = new ArrayList<>();
+		try {
+			con = DBUtil.getCon();
+			String sql = "select * from dynamic where id = ?";
+			pstm = con.prepareStatement(sql);
+			pstm.setInt(1, di);
+			rs = pstm.executeQuery();
+			while(rs.next()){
+				Dynamic dynamic = new Dynamic();
+				dynamic.set("likeCount", rs.getInt("likeCount"));
+				dynamic.set("dynamicId", rs.getInt("dynamicId"));
+				dynamic.set("id", rs.getInt("id"));
+				dynamic.set("blog", rs.getString("blog"));
+				dynamic.set("userName", rs.getString("userName"));
+				dynamic.set("headPicture", rs.getString("headPicture"));
+				list.add(dynamic);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		renderJson(list);
 	}
 
 	
